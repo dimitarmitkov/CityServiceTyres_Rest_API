@@ -37,9 +37,3 @@ Programming languages: JavaScript ES6, HTML, CSS
 
 −	when all data is correct and order is set a message confirming reservation appears;
 
-
-
-3.	Algorithms:
-
-−	
-
