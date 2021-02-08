@@ -1,0 +1,12 @@
+{
+  "server": {
+    "port": 63000,
+    "cors": {
+      "urls": [
+        "http://localhost:4200"
+      ],
+      "credentials": true,
+      "exposedHeaders": []
+    }
+  }
+}
