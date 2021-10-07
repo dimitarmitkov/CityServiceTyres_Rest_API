@@ -11,7 +11,7 @@ let data= {
     20:{
         "Wheels":"до 20",
         "Hotel":true,
-        "Price":80,
+        "Price":800,
         "Cleaning": true,
         "Special": true,
     },

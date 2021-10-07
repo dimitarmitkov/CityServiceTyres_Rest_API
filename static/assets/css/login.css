@@ -1,0 +1,13 @@
+
+
+section:nth-child(1) {
+    position: absolute;
+    top : 20%;
+    height: 100%;
+    width: 100%;
+}
+
+.container-fluid > div:nth-child(1) {
+    text-align: center;
+
+}

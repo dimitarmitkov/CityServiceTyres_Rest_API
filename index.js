@@ -7,12 +7,12 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const utils = require('./utils');
 const { server: { port, cors: corsConfig }} = require('./config');
-// const db = require('./db');
 const api = require('./api');
 const tapLog = require('./utils/tap-log');
 const globalErrorHandler = require('./global-error-handler');
-// const serveStatic = require("serve-static");
-// const staticBasePath = "./static";
+const passport = require("passport");
+
+
 
 const app = express();
 
@@ -22,13 +22,13 @@ app.use(cors({
   exposedHeaders: corsConfig.exposedHeaders
 }));
 
-// app.use(serveStatic(staticBasePath, {"index": false}));
-
 app.use('/static', express.static('public'));
 
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(express.static(path.resolve(__basedir, 'static')));
+app.use(passport.initialize());
+app.use(passport.session());
 
 api.connect('/api/v1', app);
 
@@ -47,9 +47,3 @@ function appListen() {
 appListen().then(tapLog(`Server is listening on :${port}`))
     .catch(error => console.log(`Server Error: ${error.message}`));
 
-// db.connect(database.connectionString, database.databaseName)
-//   .catch(utils.tapLog('Error connecting to database!'))
-//   .then(utils.tapLog('Successfully connected to database'))
-//   .then(appListen)
-//   .then(tapLog(`Server is listening on :${port}`))
-//   .catch(error => console.log(`Server Error: ${error.message}`));
