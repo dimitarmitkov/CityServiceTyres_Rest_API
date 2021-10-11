@@ -26,9 +26,10 @@ module.exports.connect = function (path, app) {
       .post(userController.addNewCalendarRecord);
 
   router.route("/calendarAddGuest")
-      // .post(userController.addNewCalendarRecordGuest);
+      .post(userController.addNewCalendarRecordGuest);
 
   router.route("/calendarGet")
+      .get(userController.getCalendarItems)
       .post(userController.calendarGetHoursTaken);
 
   router.route("/car")

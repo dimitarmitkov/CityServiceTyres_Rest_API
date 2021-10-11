@@ -370,15 +370,14 @@ module.exports.addNewCalendarRecord = function (req, res, next) {
     let date = req.body.currentDate;
     let userId = req.body.userId;
     let carId = req.body.carId;
-
-    // let date = currentDate.toISOString().substring(0, 10);
+    let licensePlate = req.body.license;
     let hour = parseInt(req.body.time).toString();
-    const userCalendarTable = sequelize.define("users_calendarModel", {userId,date, hour, carId},
+
+    const userCalendarTable = sequelize.define("users_calendarModel", {userId,date, hour, carId, licensePlate},
         {tableName: "user_calendar"});
-    userCalendarTable.create({userId, date, hour, carId})
+    userCalendarTable.create({userId, date, hour, carId, licensePlate})
         .then(data=> res.send("ok"))
         .catch()
-
 }
 
 module.exports.addNewCalendarRecordGuest = function (req, res, next) {
@@ -386,8 +385,8 @@ module.exports.addNewCalendarRecordGuest = function (req, res, next) {
     let date = req.body.currentDate;
     let licensePlate = req.body.license;
     let email = req.body.email;
-
     let hour = parseInt(req.body.time).toString();
+
     const userCalendarTable = sequelize.define("users_calendarModel", {licensePlate,date, hour, email},
         {tableName: "user_calendar"});
     userCalendarTable.create({licensePlate,date, hour, email})
@@ -502,5 +501,24 @@ module.exports.getCarLicensePlate = function (req, res, next) {
             res.send(JSON.stringify(result, null, 2));
         })
         .catch(err=> res.send(err));
+}
+
+module.exports.getCalendarItems = function (req, res, next) {
+
+    const {QueryTypes} = require('sequelize');
+    const records = sequelize.query("select Users.id, Users.name, Users.email, Users.phone, " +
+        "Cal.date, Cal.licensePlate, " +
+        "Cal.hour from user_calendar as Cal " +
+        "left join users as Users " +
+        "on Cal.userId = Users.id "
+
+        ,
+        {
+            type: QueryTypes.SELECT
+        }).then(result => {
+
+
+        res.send(JSON.stringify(result, null, 2));
+    }).catch(next => console.log(next));
 }
 

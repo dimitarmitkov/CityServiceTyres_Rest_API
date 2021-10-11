@@ -21,11 +21,15 @@ console.log(currentPage());
 
 if (`${currentPage()}` === "index.html") {
 
+
+
     fetch("api/v1/login")
         .then(res => res.json())
         .then(auth => {
 
-console.log(auth);
+            console.log(auth);
+
+
             if (auth) {
                 if (auth.type === "admin") {
                     document.getElementById("getAllSelector").style.display = "inline";
@@ -35,7 +39,6 @@ console.log(auth);
                 dateInput.addEventListener("click", hoursChange);
                 document.getElementById("select-btn").addEventListener("click", hoursChangeRecord);
                 document.getElementById("email-select-group").style.display = "none";
-
 
                 function hoursChange() {
                     let hoursSetup = document.getElementById("time");
@@ -60,6 +63,7 @@ console.log(auth);
                         .catch(err => console.log(err));
 
                     let carId = auth.car;
+
                     fetch("api/v1/car", {
                         method: "POST",
                         headers: {"Content-type": "application/json"},
@@ -67,7 +71,7 @@ console.log(auth);
                     })
                         .then(res => res.json())
                         .then(data => {
-                            licenseInput.value = data;
+                                licenseInput.value = data;
                             }
                         )
                         .catch(err => console.log(err));
@@ -78,38 +82,86 @@ console.log(auth);
                     let time = timeInput.value;
                     let license = licenseInput.value;
                     let email = emailInput.value;
-
-                    if(auth) {
-                        let userId = auth.id;
-                        let carId = auth.car;
+                    let userId = auth ? auth.id : "";
+                    let carId = auth ? auth.car : "";
 
 
-                        fetch("api/v1/calendarAdd", {
-                            method: "POST",
-                            headers: {"Content-type": "application/json"},
-                            body: JSON.stringify({currentDate, userId, time, carId}),
+                    fetch("api/v1/calendarAdd", {
+                        method: "POST",
+                        headers: {"Content-type": "application/json"},
+                        body: JSON.stringify({currentDate, userId, time, carId, license}),
+                    })
+                        .then(res => {
+                            if (res) {
+                            }
                         })
-                            .then(res => {
-                                if (res) {
-
-                                }
-                            })
-                            .then(data => {
-                                dateInput.value = "";
-                                timeInput.value = "";
-                                licenseInput.value = ""
-                                window.location.reload();
-                            })
-                            .catch(err => {
-
-                            });
-                    }
+                        .then(data => {
+                            dateInput.value = "";
+                            timeInput.value = "";
+                            licenseInput.value = ""
+                            window.location.reload();
+                        })
+                        .catch(err => {});
                 }
+            } else {
+
+            }
+        })
+        .catch(err => {
+            dateInput.addEventListener("change", hoursChangeGuest);
+            dateInput.addEventListener("click", hoursChangeGuest);
+            document.getElementById("select-btn").addEventListener("click", hoursChangeRecordGuest);
+
+            function hoursChangeGuest() {
+                let currentDate = dateInput.value;
+
+                fetch("api/v1/calendarGet", {
+                    method: "POST",
+                    headers: {"Content-type": "application/json"},
+                    body: JSON.stringify({currentDate}),
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                            let hoursSetup = document.getElementById("time");
+                            hoursSetup.innerHTML = "";
+                            for (let i = 9; i < 18; i++) {
+                                if (data.indexOf(i.toString()) < 0) {
+                                    hoursSetup.innerHTML += `<option>${i}:00</option>`;
+                                }
+                            }
+                        }
+                    )
+                    .catch(err => console.log(err));
+
             }
 
+            function hoursChangeRecordGuest() {
+                let currentDate = dateInput.value;
+                let time = timeInput.value;
+                let license = licenseInput.value;
+                let email = emailInput.value;
 
-        })
-        .catch(err => console.log(err));
+
+                fetch("api/v1/calendarAddGuest", {
+                    method: "POST",
+                    headers: {"Content-type": "application/json"},
+                    body: JSON.stringify({currentDate, license, time, email}),
+                })
+                    .then(res => {
+                        if (res) {
+                        }
+                    })
+                    .then(data => {
+                        dateInput.value = "";
+                        timeInput.value = "";
+                        licenseInput.value = ""
+                        window.location.reload();
+                    })
+                    .catch(err => {});
+            }
+        });
+
+
 
 
     // function hoursChange() {
@@ -501,5 +553,19 @@ console.log(auth);
 
     }
 
+
+} else if (`${currentPage()}` === "workCal.html") {
+    document.getElementById("today").innerText = currentDate.toISOString().substring(0, 10);
+    fetch(`api/v1/calendarGet`, {
+        method: "GET"
+    })
+        .then(res => res.json())
+        .then(data => {
+            console.log('here');
+            console.log(data);
+        })
+        .catch(err => {
+            console.log("Current error", err);
+        });
 
 }

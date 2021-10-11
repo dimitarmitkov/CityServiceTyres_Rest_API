@@ -4,36 +4,53 @@
     <meta charset="UTF-8">
     <title>Working Calendar</title>
     <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="assets/css/workCal.css" rel="stylesheet">
 
 </head>
 <body>
-<h2 id="today"></h2>
-<div class="table-responsive">
-    <table class="table">
-        <table class="table table-sm">
-            <thead>
-            <tr>
-                <th scope="col">hour</th>
-                <th scope="col">Monday</th>
-                <th scope="col">Tuesday</th>
-                <th scope="col">Wednesday</th>
-                <th scope="col">Thursday</th>
-                <th scope="col">Friday</th>
-                <th scope="col">Saturday</th>
-                <th scope="col">Sunday</th>
-            </tr>
-            </thead>
-            <tbody id="tbody">
-            <tr id="dates">
-                <th scope="row"></th>
-            </tr>
-            </tbody>
+<div class="container-fluid">
+    <div class="col-24">
+        <div class="col-24 col-md-12">
+            <h2 id="today"></h2>
+        </div>
+    </div>
+
+    <div class="col-24">
+        <div class="col-24 col-md-12">
+            <button id="workCal-Previous" class="get-started-btn mt-2 mb-2">Previous</button>
+            <button id="workCal-Next" class="get-started-btn mt-2 mb-2">Next</button>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table">
+            <table class="table table-sm">
+                <thead>
+                <tr>
+                                    <th scope="col">hour</th>
+                                    <th scope="col">Car Plate</th>
+                                    <th scope="col">Customer</th>
+                                    <th scope="col">Hotel</th>
+<!--                                    <th scope="col">Thursday</th>-->
+<!--                                    <th scope="col">Friday</th>-->
+<!--                                    <th scope="col">Saturday</th>-->
+<!--                                    <th scope="col">Sunday</th>-->
+                </tr>
+                </thead>
+                <tbody id="tbody">
+                <tr id="dates">
+                    <th scope="row"></th>
+                </tr>
+                </tbody>
+            </table>
         </table>
-    </table>
+    </div>
+    <div class="col-24">
+        <div class="col-24 col-md-12">
+            <a class="get-started-btn" href="index.html" type="button">Оратно към начална страница</a>
+        </div>
+    </div>
 </div>
-
-<a class="get-started-btn" href="index.html" type="button">Оратно към начална страница</a>
-
 <script src="main.js">
 
 </script>
