@@ -18,7 +18,7 @@ Programming languages: JavaScript ES6, HTML, CSS
 
 2.	Main functionalities.
 
-2.1.	rest api controllers are collecting data form input fields of https://cityservicetires.com as follows:
+2.1.	rest api controllers are collecting data form input fields of https://drago-bg.com as follows:
 
 −	date (restricted start and end periods);
 
