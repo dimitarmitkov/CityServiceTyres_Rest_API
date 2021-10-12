@@ -111,25 +111,25 @@ module.exports.getUsers = function (req, res, next) {
         {},
         {tableName: "user_logged"});
 
-    loggedUser.findAll({attributes: ['id','userId', 'token']})
+    loggedUser.findAll({attributes: ['id', 'userId', 'token']})
         .then(logged => {
             let [firstElement] = logged;
             let currentToken = firstElement.dataValues.token;
             let tokenId = firstElement.dataValues.id;
 
             // const payload = jwt.verify(currentToken,`${myKey}`)?jwt.verify(currentToken,`${myKey}`):false;
-            jwt.verify(currentToken,`${myKey}`, (err, user) => {
-                if(err){
+            jwt.verify(currentToken, `${myKey}`, (err, user) => {
+                if (err) {
                     loggedUser.destroy(
                         {
-                            where: {id:tokenId},
-                            force : true
+                            where: {id: tokenId},
+                            force: true
                         },
                     );
                 }
 
-                if(user){
-                    const payload = jwt.verify(currentToken,`${myKey}`);
+                if (user) {
+                    const payload = jwt.verify(currentToken, `${myKey}`);
                     console.log(payload);
                 }
             })
@@ -175,11 +175,6 @@ module.exports.loginUser = function (req, res, next) {
     const {insertEmail, insertPassword} = req.body;
     const userTable = sequelize.define("usersModel", {},
         {tableName: "users"});
-
-    // function generateAccessToken(username) {
-    //     return jwt.sign(username, process.env.SECRET, { expiresIn: '1800s' });
-    // }
-
     try {
 
         userTable.findOne(
@@ -202,43 +197,31 @@ module.exports.loginUser = function (req, res, next) {
                     carTable.findAll(
                         {
                             attributes: ['id', 'userId'],
-                                where: {userId : userId}
-                        }).then(car=>{
-                            // console.log(car[0].dataValues);
+                            where: {userId: userId}
+                        }).then(car => {
 
+                        let token = jwt.sign(
+                            {
 
+                                username: user.dataValues.name,
+                                id: user.dataValues.id,
+                                type: user.dataValues.type,
+                                email: user.dataValues.email,
+                                deleted: user.dataValues.deleted,
+                                car: car[0].dataValues.id,
+                            },
+                            `${myKey}`,
+                            {expiresIn: '300s'});
 
-                    let token = jwt.sign(
-                        {
+                        const user_loggedTable = sequelize.define("user_loggedModel", {userId, token},
+                            {tableName: "user_logged"});
 
-                            username: user.dataValues.name,
-                            id: user.dataValues.id,
-                            type: user.dataValues.type,
-                            deleted: user.dataValues.deleted,
-                            car: car[0].dataValues.id,
-                        },
-                        // require('crypto').randomBytes(256).toString('hex'),
-                        `${myKey}`,
-                        {expiresIn: '300s'});
-
-                    const user_loggedTable = sequelize.define("user_loggedModel", {userId, token},
-                        {tableName: "user_logged"});
-
-                    // user_loggedTable.create({userId, token})
-                    //     .then(user => {
-                    //
-                    //         const payload = jwt.verify(token, `${myKey}`);
-                    //         console.log(payload.exp)
-                    //     })
-                    //     .catch(err => console.log(err));
-
-
-                    res.cookie("access_token",token,{
+                        res.cookie("access_token", token, {
                             httpOnly: true,
                             secure: process.env.NODE_ENV === "production"
                         })
-                        .status(200)
-                        .json({message: "Successfully logged"});
+                            .status(200)
+                            .json({message: "Successfully logged"});
                     }).catch();
                 } else {
                     res.status(400).json({error: "Password Incorrect"});
@@ -249,15 +232,16 @@ module.exports.loginUser = function (req, res, next) {
             }
 
         }).catch(err => console.log(err));
-
-
-        // userAction.login({date, time, email, license}).then(customer=>{
-        //     res.status(201).send(customer);
-        // }).catch(next);
-        //
     } catch (err) {
         res.send("incorrect user or password.")
     }
+}
+
+module.exports.logoutUser = function (req, res, next) {
+    return res
+        .clearCookie("access_token")
+        .status(200)
+        .json({ message: "Successfully logged out" });
 }
 
 module.exports.updateUser = function (req, res, next) {
@@ -279,22 +263,6 @@ module.exports.updateUser = function (req, res, next) {
             res.send(JSON.stringify(customers, null, 2));
         })
         .catch(next => console.log(next, "err"));
-
-}
-
-
-module.exports.getUser = function (req, res, next) {
-    // const id = req.params.id;
-    // userAction.getOne(id).then(customer=>{
-    //     res.send(customer)
-    // }).catch(next);
-}
-
-module.exports.getUserByEmail = function (req, res, next) {
-    // const email =req.body.email;
-    // userAction.getOneByEmail(email).then(email=>{
-    //     res.send(email);
-    // }).catch(next);
 
 }
 
@@ -330,30 +298,30 @@ module.exports.addCalendarRecord = function (req, res, next) {
         {},
         {tableName: "user_logged"});
 
-    loggedUser.findAll({attributes: ['id','userId', 'token']})
+    loggedUser.findAll({attributes: ['id', 'userId', 'token']})
         .then(logged => {
             let [firstElement] = logged;
             let currentToken = firstElement.dataValues.token;
             let tokenId = firstElement.dataValues.id;
 
             // const payload = jwt.verify(currentToken,`${myKey}`)?jwt.verify(currentToken,`${myKey}`):false;
-            jwt.verify(currentToken,`${myKey}`, (err, user) => {
-                if(err){
+            jwt.verify(currentToken, `${myKey}`, (err, user) => {
+                if (err) {
                     loggedUser.destroy(
                         {
-                            where: {id:tokenId},
-                            force : true
+                            where: {id: tokenId},
+                            force: true
                         },
                     );
                 }
 
-                if(user){
-                    const payload = jwt.verify(currentToken,`${myKey}`);
+                if (user) {
+                    const payload = jwt.verify(currentToken, `${myKey}`);
                     const userId = payload.id;
                     let currentDate = new Date();
                     let date = currentDate.toISOString().substring(0, 10);
                     let hour = "9";
-                    const userCalendarTable = sequelize.define("users_calendarModel", {userId,date, hour},
+                    const userCalendarTable = sequelize.define("users_calendarModel", {userId, date, hour},
                         {tableName: "user_calendar"});
                     userCalendarTable.create({userId, date, hour});
                 }
@@ -367,30 +335,31 @@ module.exports.addCalendarRecord = function (req, res, next) {
 
 module.exports.addNewCalendarRecord = function (req, res, next) {
 
-    let date = req.body.currentDate;
+    let date = req.body.currentDateInput;
     let userId = req.body.userId;
     let carId = req.body.carId;
     let licensePlate = req.body.license;
+    let email = req.body.userEmail;
     let hour = parseInt(req.body.time).toString();
 
-    const userCalendarTable = sequelize.define("users_calendarModel", {userId,date, hour, carId, licensePlate},
+    const userCalendarTable = sequelize.define("users_calendarModel", {userId, date, hour, carId, licensePlate, email},
         {tableName: "user_calendar"});
-    userCalendarTable.create({userId, date, hour, carId, licensePlate})
-        .then(data=> res.send("ok"))
+    userCalendarTable.create({userId, date, hour, carId, licensePlate, email})
+        .then(data => res.send("ok"))
         .catch()
 }
 
 module.exports.addNewCalendarRecordGuest = function (req, res, next) {
 
-    let date = req.body.currentDate;
+    let date = req.body.currentDateInput;
     let licensePlate = req.body.license;
     let email = req.body.email;
     let hour = parseInt(req.body.time).toString();
 
-    const userCalendarTable = sequelize.define("users_calendarModel", {licensePlate,date, hour, email},
+    const userCalendarTable = sequelize.define("users_calendarModel", {licensePlate, date, hour, email},
         {tableName: "user_calendar"});
-    userCalendarTable.create({licensePlate,date, hour, email})
-        .then(data=> res.send("ok"))
+    userCalendarTable.create({licensePlate, date, hour, email})
+        .then(data => res.send("ok"))
         .catch()
 
 }
@@ -454,7 +423,7 @@ module.exports.authorization = function (req, res, next) {
 
 module.exports.calendarGetHoursTaken = function (req, res, next) {
 
-    const dateInUse = new Date(req.body.currentDate);
+    const dateInUse = new Date(req.body.currentDateInput);
     const date = dateInUse.toISOString().split('T')[0];
     const hour = 0;
     let responseArray = [];
@@ -466,17 +435,17 @@ module.exports.calendarGetHoursTaken = function (req, res, next) {
         {tableName: "user_calendar"});
 
     calendarTable.findAll({
-        attributes: ['date','hour'],
-        where: {date : date},
+        attributes: ['date', 'hour'],
+        where: {date: date},
         returning: true
     })
-        .then(data=>{
+        .then(data => {
             for (let i = 0; i < data.length; i++) {
                 responseArray.push(data[i].dataValues.hour);
             }
             res.send(responseArray);
         })
-        .catch(err=> res.send(err));
+        .catch(err => res.send(err));
 
 
 }
@@ -492,15 +461,15 @@ module.exports.getCarLicensePlate = function (req, res, next) {
         {tableName: "user_cars"});
 
     carTable.findOne({
-        attributes: ['id','licensePlate'],
-        where: {id : carId},
+        attributes: ['id', 'licensePlate'],
+        where: {id: carId},
         returning: true
     })
-        .then(carPlate=>{
+        .then(carPlate => {
             let result = carPlate.dataValues.licensePlate;
             res.send(JSON.stringify(result, null, 2));
         })
-        .catch(err=> res.send(err));
+        .catch(err => res.send(err));
 }
 
 module.exports.getCalendarItems = function (req, res, next) {
@@ -508,10 +477,11 @@ module.exports.getCalendarItems = function (req, res, next) {
     const {QueryTypes} = require('sequelize');
     const records = sequelize.query("select Users.id, Users.name, Users.email, Users.phone, " +
         "Cal.date, Cal.licensePlate, " +
-        "Cal.hour from user_calendar as Cal " +
+        "Cal.hour, Cal.email, Hotel.size, Hotel.season, Hotel.tires_number from user_calendar as Cal " +
         "left join users as Users " +
-        "on Cal.userId = Users.id "
-
+        "on Cal.userId = Users.id " +
+        "left join user_hotel as Hotel " +
+        "on Cal.userId = Hotel.userId "
         ,
         {
             type: QueryTypes.SELECT

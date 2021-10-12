@@ -1,16 +1,13 @@
-let calendarSetup = document.getElementById("date");
-let selectBtn = document.getElementById("select-btn");
 let dateInput = document.getElementById("date");
 let timeInput = document.getElementById("time");
 let licenseInput = document.getElementById("license");
 let emailInput = document.getElementById("email-select");
 let currentDate = new Date();
-let currentMonth = (new Date()).getMonth();
-let currentYear = currentDate.getFullYear();
 let alertElement = document.getElementById("alert");
 let result = true;
-let firstDay;
-let lastDay;
+let checkDay = true;
+let changedDay = new Date();
+let logout = document.getElementById("logoutSelector");
 
 function currentPage() {
     let path = window.location.pathname;
@@ -19,21 +16,55 @@ function currentPage() {
 
 console.log(currentPage());
 
+function showDate(date) {
+    let startArray = [];
+    document.getElementById("today").innerText = date.toString().substring(0, 16);
+    let tableData = document.getElementById("tbody");
+    tableData.innerHTML = "";
+    fetch(`api/v1/calendarGet`, {
+        method: "GET"
+    })
+        .then(res => res.json())
+        .then(data => {
+            for (let dataKey of data) {
+                if (dataKey.date === date.toISOString().substring(0, 10)) {
+                    startArray[dataKey.hour] = dataKey.hour ? dataKey : "";
+                }
+            }
+            for (let i = 9; i < 18; i++) {
+                tableData.innerHTML += (startArray[i]) ?
+                    `<tr>
+                    <td>${startArray[i].hour}</td>
+                    <td>${startArray[i].licensePlate}</td>
+                    <td>${startArray[i].name ? startArray[i].name : 'not logged'}</td>
+                    <td>${startArray[i].email}</td>
+                    <td>${startArray[i].date}</td>
+                    <td>${startArray[i].season}</td>
+                    <td>${startArray[i].tires_number}</td>
+                    <td>${startArray[i].size}</td>
+                    </tr>` : `<tr><td>${i}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>`;
+            }
+        })
+        .catch(err => {
+            console.log("Current error", err);
+        });
+}
+
 if (`${currentPage()}` === "index.html") {
-
-
 
     fetch("api/v1/login")
         .then(res => res.json())
         .then(auth => {
 
-            console.log(auth);
-
+            document.getElementById("loginSelector").style.display = "none";
 
             if (auth) {
                 if (auth.type === "admin") {
                     document.getElementById("getAllSelector").style.display = "inline";
+                    document.getElementById("getCalendar").style.display = "inline";
                 }
+
+                logout.style.display = "inline";
 
                 dateInput.addEventListener("change", hoursChange);
                 dateInput.addEventListener("click", hoursChange);
@@ -42,12 +73,12 @@ if (`${currentPage()}` === "index.html") {
 
                 function hoursChange() {
                     let hoursSetup = document.getElementById("time");
-                    let currentDate = dateInput.value;
+                    let currentDateInput = dateInput.value;
 
                     fetch("api/v1/calendarGet", {
                         method: "POST",
                         headers: {"Content-type": "application/json"},
-                        body: JSON.stringify({currentDate}),
+                        body: JSON.stringify({currentDateInput}),
                     })
                         .then(res => res.json())
                         .then(data => {
@@ -78,18 +109,18 @@ if (`${currentPage()}` === "index.html") {
                 }
 
                 function hoursChangeRecord() {
-                    let currentDate = dateInput.value;
+                    console.log(auth);
+                    let currentDateInput = dateInput.value;
                     let time = timeInput.value;
                     let license = licenseInput.value;
-                    let email = emailInput.value;
+                    let userEmail = auth ? auth.email : "";
                     let userId = auth ? auth.id : "";
                     let carId = auth ? auth.car : "";
-
 
                     fetch("api/v1/calendarAdd", {
                         method: "POST",
                         headers: {"Content-type": "application/json"},
-                        body: JSON.stringify({currentDate, userId, time, carId, license}),
+                        body: JSON.stringify({currentDateInput, userId, time, carId, license, userEmail}),
                     })
                         .then(res => {
                             if (res) {
@@ -101,10 +132,20 @@ if (`${currentPage()}` === "index.html") {
                             licenseInput.value = ""
                             window.location.reload();
                         })
-                        .catch(err => {});
+                        .catch(err => {
+                        });
                 }
-            } else {
 
+                logout.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    fetch("api/v1/logout")
+                        .then(res => res.json())
+                        .then(data => {
+                            // console.log(data);
+                            window.location.href = "/index.html";
+                        })
+                        .catch(err => console.log(err));
+                });
             }
         })
         .catch(err => {
@@ -113,12 +154,12 @@ if (`${currentPage()}` === "index.html") {
             document.getElementById("select-btn").addEventListener("click", hoursChangeRecordGuest);
 
             function hoursChangeGuest() {
-                let currentDate = dateInput.value;
+                let currentDateInput = dateInput.value;
 
                 fetch("api/v1/calendarGet", {
                     method: "POST",
                     headers: {"Content-type": "application/json"},
-                    body: JSON.stringify({currentDate}),
+                    body: JSON.stringify({currentDateInput}),
                 })
                     .then(res => res.json())
                     .then(data => {
@@ -132,11 +173,10 @@ if (`${currentPage()}` === "index.html") {
                         }
                     )
                     .catch(err => console.log(err));
-
             }
 
             function hoursChangeRecordGuest() {
-                let currentDate = dateInput.value;
+                let currentDateInput = dateInput.value;
                 let time = timeInput.value;
                 let license = licenseInput.value;
                 let email = emailInput.value;
@@ -145,7 +185,7 @@ if (`${currentPage()}` === "index.html") {
                 fetch("api/v1/calendarAddGuest", {
                     method: "POST",
                     headers: {"Content-type": "application/json"},
-                    body: JSON.stringify({currentDate, license, time, email}),
+                    body: JSON.stringify({currentDateInput, license, time, email}),
                 })
                     .then(res => {
                         if (res) {
@@ -154,252 +194,14 @@ if (`${currentPage()}` === "index.html") {
                     .then(data => {
                         dateInput.value = "";
                         timeInput.value = "";
-                        licenseInput.value = ""
+                        licenseInput.value = "";
+                        emailInput.value = "";
                         window.location.reload();
                     })
-                    .catch(err => {});
+                    .catch(err => {
+                    });
             }
         });
-
-
-
-
-    // function hoursChange() {
-    //     let hoursSetup = document.getElementById("time");
-    //
-    //     let hours = [];
-    //     hoursSetup.innerHTML = "";
-    //     fetch("api/v1/users")
-    //         .then(res => res.json())
-    //         .then(customers => {
-    //             for (let i = 0; i < customers.length; i++) {
-    //                 if (customers[i].date === dateInput.value) {
-    //                     hours[i] = (+customers[i].time.split(":")[0]);
-    //                 }
-    //             }
-    //
-    //             for (let i = 9; i < 18; i++) {
-    //                 if (hours.indexOf(i) < 0) {
-    //                     hoursSetup.innerHTML += `<option>${i}:00</option>`;
-    //                 }
-    //             }
-    //         })
-    //         .catch(err => err);
-    // }
-    //
-    // if (dateInput) {
-    //     dateInput.value = currentDate.toISOString().substring(0, 10) < `${currentYear}-03-01` ?
-    //         `${currentYear}-03-01` : `${currentDate.toISOString().substring(0, 10)}`;
-    //
-    //     if (currentMonth <= 5) {
-    //         firstDay = `${currentYear}-03-01`;
-    //         lastDay = `${currentYear}-05-31`;
-    //         calendarSetup.setAttribute("min", `${currentYear}-03-01`);
-    //         calendarSetup.setAttribute("max", `${currentYear}-05-31`);
-    //         dateInput.value = currentDate.toISOString().substring(0, 10);
-    //     } else {
-    //         firstDay = `${currentYear}-09-01`;
-    //         lastDay = `${currentYear}-10-31`;
-    //         calendarSetup.setAttribute("min", `${currentYear}-09-01`);
-    //         calendarSetup.setAttribute("max", `${currentYear}-10-31`);
-    //         dateInput.value = currentDate.toISOString().substring(0, 10);
-    //     }
-    //
-    //     dateInput.addEventListener("change", hoursChange);
-    //     dateInput.addEventListener("click", hoursChange);
-    //
-    //     selectBtn.addEventListener("click", function () {
-    //         const email = emailInput.value;
-    //         const date = dateInput.value;
-    //         const time = timeInput.value;
-    //         const license = licenseInput.value;
-    //
-    //         let emails = [];
-    //         let licenses = [];
-    //         fetch("api/v1/users")
-    //             .then(res => res.json())
-    //             .then(customers => {
-    //                 for (let i = 0; i < customers.length; i++) {
-    //                     emails.push(customers[i].email);
-    //                     licenses.push(customers[i].license);
-    //                 }
-    //                 if (emails.indexOf(email) > 0 || licenses.indexOf(license) > 0) {
-    //                     alertShow(email);
-    //                     result = false;
-    //                 }
-    //             })
-    //             .catch(err => err);
-    //
-    //         if (!license.match(/[A-Z]{2}[0-9]{4}[A-Z]{2}/gm)) {
-    //             licenseCheckMessage(license);
-    //             return;
-    //         }
-    //
-    //         if (!email || !date || !time || !license) {
-    //             fillInAllFields();
-    //             return;
-    //         }
-    //
-    //         let today = currentDate.toISOString().substring(0, 10);
-    //
-    //         if (date < today || date < firstDay || date > lastDay) {
-    //             dateCheckMessage(firstDay, lastDay);
-    //             return;
-    //         }
-    //
-    //         fetch("api/v1/users", {
-    //             method: "POST",
-    //             headers: {"Content-type": "application/json"},
-    //             body: JSON.stringify({date, time, email, license}),
-    //         })
-    //             .then(res => res.json())
-    //             .then(customer => {
-    //                 confirmInsert(email, date, time, license);
-    //             })
-    //             .catch(err => {
-    //
-    //             });
-    //
-    //         function confirmInsert(email, date, time) {
-    //             alertElement.innerHTML = `<div class="alert alert-warning alert-dismissible" role="alert">
-    //     <strong>Успено запачен час за ${email}.</strong> Избрахте дата: ${date}, час: ${time}.
-    //     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    //         <span aria-hidden="true">&times;</span>
-    //     </button>
-    // </div>`;
-    //         }
-    //
-    //         function alertShow(email) {
-    //             alertElement.innerHTML = `<div class="alert alert-danger">
-    //         <button type="button" class="close" data-dismiss="alert">&times;</button>
-    //         <strong>${email} или ${license} има вече запазен час</strong>! Заявката Ви не е изпълнена.
-    //     </div>`;
-    //         }
-    //
-    //         function fillInAllFields() {
-    //             alertElement.innerHTML = `<div class="alert alert-danger">
-    //         <button type="button" class="close" data-dismiss="alert">&times;</button>
-    //         <strong>Моля попълнете всички полета</strong>! Заявката Ви не е изпълнена.
-    //     </div>`;
-    //         }
-    //
-    //         function dateCheckMessage(firstDay, lastDay) {
-    //             alertElement.innerHTML = `<div class="alert alert-danger">
-    //         <button type="button" class="close" data-dismiss="alert">&times;</button>
-    //         <strong>Моля въведете коректна дата</strong>! Моля да изберете днешна дата или следваща дата в периода:
-    //         ${firstDay} - ${lastDay}.
-    //     </div>`;
-    //         }
-    //
-    //         function licenseCheckMessage(license) {
-    //             alertElement.innerHTML = `<div class="alert alert-danger">
-    //         <button type="button" class="close" data-dismiss="alert">&times;</button>
-    //         <strong>Моля въведете коректен регистрационен номер.</div>`;
-    //         }
-    //
-    //         emailInput.value = "";
-    //         timeInput.value = "";
-    //         dateInput.value = `${currentDate.toISOString().substring(0, 10)}`;
-    //         licenseInput.value = "";
-    //
-    //     });
-    //
-    // } else {
-    //     // doItAll();
-    // }
-
-
-    // function doItAll() {
-    //
-    //     let inputDate = new Date();
-    //     document.addEventListener("click", eventHandler);
-    //     let table = document.getElementById("tbody");
-    //     let today = document.getElementById("today");
-    //     var trDates = document.getElementById("dates");
-    //     var trWeekDays = document.getElementById("dayOfWeek");
-    //     today.innerHTML = `Today: ${inputDate.toISOString().slice(0, 10)}`;
-    //
-    //
-    //     let currentDate = new Date();
-    //     let counter = 0;
-    //
-    //     function eventHandler(e) {
-    //         let pressedId = e.target.id;
-    //
-    //         if (pressedId === "previousWeek") {
-    //             --counter;
-    //             table.innerHTML = "";
-    //             trDates.innerHTML = "<th scope=\"row\"></th>";
-    //             trWeekDays.innerHTML = "<th scope=\"col\">hour</th>";
-    //             worker(addDays(currentDate, counter * 7));
-    //
-    //         } else if (pressedId === "nextWeek") {
-    //             ++counter;
-    //             table.innerHTML = "";
-    //             trDates.innerHTML = "<th scope=\"row\"></th>";
-    //             trWeekDays.innerHTML = "<th scope=\"col\">hour</th>";
-    //             worker(addDays(currentDate, counter * 7));
-    //         }
-    //     }
-    //
-    //     // worker(inputDate);
-    //
-    //     // function worker(inputDate) {
-    //     //     let dateNow = new Date(`${inputDate.toISOString().slice(0, 10)}`);
-    //     //     let day = dateNow.getDay();
-    //     //     let datesArray = [];
-    //     //
-    //     //     let weekday = new Array(7);
-    //     //     weekday[0] = "Sunday";
-    //     //     weekday[1] = "Monday";
-    //     //     weekday[2] = "Tuesday";
-    //     //     weekday[3] = "Wednesday";
-    //     //     weekday[4] = "Thursday";
-    //     //     weekday[5] = "Friday";
-    //     //     weekday[6] = "Saturday";
-    //     //
-    //     //     for (let i = 0; i < 7; i++) {
-    //     //         let dateInForLoop = new Date(`${addDays(new Date(dateNow), (i))}`);
-    //     //         let obj = {date: dateInForLoop.toISOString().slice(0, 10), day: i};
-    //     //         datesArray.push(obj);
-    //     //         trDates.innerHTML += `<td >${dateInForLoop.toISOString().slice(0, 10)}</td>`;
-    //     //         let d = dateInForLoop.toISOString().slice(0, 10)
-    //     //         let dd = new Date(`${d}`);
-    //     //
-    //     //         trWeekDays.innerHTML += `<td >${weekday[dd.getDay()]}</td>`;
-    //     //     }
-    //     //
-    //     //     for (let i = 9; i < 18; i++) {
-    //     //         table.innerHTML += `<tr id="rowId${i}"><th scope="row">${i}:00</th></tr>`;
-    //     //         let rowData = document.getElementById(`rowId${i}`);
-    //     //         for (let j = 1; j <= 7; j++) {
-    //     //             rowData.innerHTML += `<td id="${i}${j}"></td>`
-    //     //         }
-    //     //     }
-    //     //
-    //     //     fetch("api/v1/users")
-    //     //         .then(res => res.json())
-    //     //         .then(customers => {
-    //     //             for (let i = 0; i < customers.length; i++) {
-    //     //                 let dayId = datesArray.filter(x => x.date === `${customers[i].date}`);
-    //     //                 let timeId = `${customers[i].time}`.slice(0, -3);
-    //     //                 if (dayId.length !== 0) {
-    //     //                     let id = `${timeId}`.concat(`${Object.values(dayId[0])[1] + 1}`);
-    //     //                     document.getElementById(`${id}`).innerText =
-    //     //                         `${customers[i].email} ${(customers[i].license) ? customers[i].license : ""}`;
-    //     //                 }
-    //     //             }
-    //     //         })
-    //     //         .catch(err => err);
-    //     //
-    //     // }
-    // }
-
-    // function addDays(date, days) {
-    //     const copy = new Date(Number(date));
-    //     copy.setDate(date.getDate() + days);
-    //     return copy;
-    // }
 } else if (`${currentPage()}` === "register.html") {
     let customerName = document.getElementById("customerName");
     let customerEmail = document.getElementById("customerEmail");
@@ -420,7 +222,6 @@ if (`${currentPage()}` === "index.html") {
         const plate = customerCarLicensePlate.value;
         const phone = customerPhone.value;
         const insertPassword = customerPassword.value;
-
 
         fetch("api/v1/users", {
             method: "POST",
@@ -451,11 +252,8 @@ if (`${currentPage()}` === "index.html") {
         customerCarModel.value = "";
         customerCarLicensePlate.value = "";
     }
-
-
 } else if (`${currentPage()}` === "getAll.html") {
     let content = document.getElementById("content");
-
 
     fetch("api/v1/users", {
         method: "GET",
@@ -465,8 +263,8 @@ if (`${currentPage()}` === "index.html") {
             for (let i = 0; i < Object.entries(data).length; i++) {
                 let [currentObjectData] = (Object.entries(data)[i]).slice(-1);
 
-                content.innerHTML += `
-                     <div class="row">
+                content.innerHTML +=
+                    `<div class="row">
                         <div class="col-24 col-md-1 align-baseline text-center text-nowrap text-truncate border">${currentObjectData.id}</div>
                         <div class="col-24 col-md-2 align-middle text-left text-nowrap text-truncate border">${currentObjectData.name}</div>
                         <div class="col-24 col-md-2 align-middle text-left text-nowrap text-truncate border">${currentObjectData.email}</div>
@@ -477,9 +275,7 @@ if (`${currentPage()}` === "index.html") {
                             <button id="deleteBtn_${currentObjectData.id}" class="btn btn-danger mt-2 mb-2" type="button">Delete</button>
                             <button id="editBtn_${currentObjectData.id}" class="btn btn-info mt-2 mb-2" type="button">Edit</button>
                         </div>
-                     </div>
-                    `;
-
+                     </div>`;
             }
 
             document.addEventListener("click", currentEventHandler);
@@ -506,14 +302,11 @@ if (`${currentPage()}` === "index.html") {
                             console.log("Current error", err);
                         });
                 }
-
             }
-
         })
         .catch(err => {
             console.log("Current error", err);
         });
-
 } else if (`${currentPage()}` === "login.html") {
 
     let login = document.getElementById("loginSubmitBtn");
@@ -525,7 +318,6 @@ if (`${currentPage()}` === "index.html") {
     function loginHandler() {
         const insertEmail = customerEmail.value;
         const insertPassword = customerPassword.value;
-
 
         fetch("api/v1/login", {
             method: "POST",
@@ -547,25 +339,37 @@ if (`${currentPage()}` === "index.html") {
             .catch(err => {
                 console.log("Current error", err);
             });
-
         customerEmail.value = "";
         customerPassword.value = "";
-
     }
 
 
 } else if (`${currentPage()}` === "workCal.html") {
-    document.getElementById("today").innerText = currentDate.toISOString().substring(0, 10);
-    fetch(`api/v1/calendarGet`, {
-        method: "GET"
-    })
-        .then(res => res.json())
-        .then(data => {
-            console.log('here');
-            console.log(data);
-        })
-        .catch(err => {
-            console.log("Current error", err);
-        });
+    document.getElementById("today").innerText = changedDay.toString().substring(0, 16);
+    let prevDay = document.getElementById("workCal-Previous");
+    let nextDay = document.getElementById("workCal-Next");
+    let today = document.getElementById("workCal-Today");
 
+    prevDay.addEventListener("click", () => {
+
+        changedDay = changedDay === currentDate ? new Date(currentDate.setDate(currentDate.getDate() - 1)) :
+            new Date(changedDay.setDate(changedDay.getDate() - 1));
+        showDate(changedDay);
+        checkDay = false;
+
+    });
+
+    nextDay.addEventListener("click", () => {
+        changedDay = changedDay === currentDate ? new Date(currentDate.setDate(currentDate.getDate() + 1)) :
+            new Date(changedDay.setDate(changedDay.getDate() + 1));
+        showDate(changedDay);
+        checkDay = false;
+    });
+
+    today.addEventListener("click", () => {
+        changedDay = new Date();
+        showDate(changedDay);
+        checkDay = false;
+    })
+    checkDay ? showDate(currentDate) : "";
 }

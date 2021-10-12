@@ -1,3 +1,29 @@
-#workCal-Next, #workCal-Previous{
+#workCal-Next, #workCal-Previous, #workCal-Today{
     min-width: 120px;
+}
+
+.get-started-btn-green {
+    margin-left: 25px;
+    background: #259B36;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px 30px 11px 30px;
+    white-space: nowrap;
+    transition: 0.3s;
+    font-size: 14px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.get-started-btn-green:hover {
+    background: #259B36;
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    .get-started-btn-green {
+        margin: 0 48px 0 0;
+        padding: 5px 18px 6px 18px;
+        border-radius: 3px;
+    }
 }

@@ -8,6 +8,9 @@ module.exports.connect = function (path, app) {
       .post(userController.loginUser)
       .get(userController.authorization);
 
+  router.route("/logout")
+      .get(userController.logoutUser);
+
 
   router.route("/users")
       .get(userController.getUsers)
@@ -18,8 +21,7 @@ module.exports.connect = function (path, app) {
 
   router.route("/users/:id")
       .put(userController.updateUser)
-      .delete(userController.deleteUser)
-      .get(userController.getUser);
+      .delete(userController.deleteUser);
 
   router.route("/calendarAdd")
       .get(userController.addCalendarRecord)

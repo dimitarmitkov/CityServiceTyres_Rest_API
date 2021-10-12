@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Working Calendar</title>
     <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/workCal.css" rel="stylesheet">
 
@@ -17,9 +18,10 @@
     </div>
 
     <div class="col-24">
-        <div class="col-24 col-md-12">
-            <button id="workCal-Previous" class="get-started-btn mt-2 mb-2">Previous</button>
-            <button id="workCal-Next" class="get-started-btn mt-2 mb-2">Next</button>
+        <div class="col-24 col-md-6">
+            <button id="workCal-Previous" class="get-started-btn mt-2 mb-2"><i class='bx bx-chevrons-left'></i>Previous</button>
+            <button id="workCal-Today" class="get-started-btn-green mt-2 mb-2"><i class='bx bx-calendar-check'></i>Today</button>
+            <button id="workCal-Next" class="get-started-btn mt-2 mb-2">Next<i class='bx bx-chevrons-right'></i></button>
         </div>
     </div>
     <div class="table-responsive">
@@ -31,10 +33,10 @@
                                     <th scope="col">Car Plate</th>
                                     <th scope="col">Customer</th>
                                     <th scope="col">Hotel</th>
-<!--                                    <th scope="col">Thursday</th>-->
-<!--                                    <th scope="col">Friday</th>-->
-<!--                                    <th scope="col">Saturday</th>-->
-<!--                                    <th scope="col">Sunday</th>-->
+                                    <th scope="col">date</th>
+                                    <th scope="col">season</th>
+                                    <th scope="col">tires number</th>
+                                    <th scope="col">active</th>
                 </tr>
                 </thead>
                 <tbody id="tbody">
