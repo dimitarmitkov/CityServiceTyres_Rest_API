@@ -14,7 +14,6 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
 
-
     <title>City Service Group EOOD</title>
     <meta content="" name="descriptison">
     <meta content="" name="keywords">
@@ -67,7 +66,8 @@
         <a href="#tires" class="get-started-btn scrollto">Запазване на час</a>
         <a id="loginSelector" href="login.html" class="get-started-btn scrollto">Login</a>
         <a id="logoutSelector" href="" class="get-started-btn scrollto" style="display: none">Logout</a>
-        <a id = "registerSelector" href="register.html" class="get-started-btn scrollto" style="display: none">Register</a>
+        <a id="registerSelector" href="register.html" class="get-started-btn scrollto"
+           style="display: none">Register</a>
         <a id="getAllSelector" href="getAll.html" class="get-started-btn scrollto" style="display: none">Get All</a>
         <a id="getCalendar" href="./workCal.html" class="get-started-btn scrollto" style="display: none">Calendar</a>
 
@@ -694,32 +694,46 @@
                 <div class="row mt-5">
                     <div class="col-lg-12">
                         <div id="info" class="info">
-                            <div><i class='bx bx-calendar-check bx-tada'></i><h2 style="margin-left: 20px;">Запазване на час за смяна на гуми.</h2></div>
+                            <div><i class='bx bx-calendar-check bx-tada'></i>
+                                <h2 style="margin-left: 20px;">Запазване на час за смяна на гуми.</h2></div>
                             <br/>
                             <div class="email">
                                 <div id="register-form">
                                     <form>
                                         <div class="form-group">
-                                            <label for="date">Моля изберете дата: </label>
-                                            <input id="date" name="date" type="date" placeholder="mm/dd/yyyy">
+                                            <div class="row">
+                                                <div class="mb-2 mr-4">Моля изберете дата:</div>
+                                                <label for="date"> </label>
+                                                <input id="date" name="date" type="date" placeholder="mm/dd/yyyy">
 
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="mb-2 mr-4">Моля изберете час :</div>
+                                                <label for="time"></label>
+                                                <select id="time" name="time"></select>
+                                            </div>
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="time">Моля изберете час :</label>
-                                            <select id="time" name="time"></select>
-                                        </div>
-
-                                        <div id ="email-select-group" class="form-group">
-                                            <label for="email-select">Моля въведете email :</label>
-                                            <input id="email-select" name="email" type="email">
+                                            <div id="email-select-group" class="row">
+                                                <div class="mb-2 mr-1">Моля въведете email :</div>
+                                                <div >
+                                                    <label for="email-select"></label>
+                                                    <input id="email-select" name="email" type="email">
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="license">Моля въведете рег. номер</label>
-                                            <br>
-                                            <label for="license">с латински букви:</label>
-                                            <input id="license" name="license" type="text">
+                                            <div class="row">
+                                                <div class="mb-2 mr-1">Регистрационен номер :</div>
+                                                <label for="license"></label>
+                                                <input id="license" name="license" type="text" >
+                                            </div>
                                         </div>
 
                                         <button class="get-started-btn" id="select-btn" type="button">Запазване на час
