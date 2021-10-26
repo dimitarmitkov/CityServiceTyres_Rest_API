@@ -27,6 +27,9 @@ module.exports.connect = function (path, app) {
       .get(userController.addCalendarRecord)
       .post(userController.addNewCalendarRecord);
 
+  router.route("/calendarRemove")
+      .delete(userController.removeCalendarRecord);
+
   router.route("/calendarAddGuest")
       .post(userController.addNewCalendarRecordGuest);
 

@@ -702,9 +702,9 @@
                                     <form>
                                         <div class="form-group">
                                             <div class="row">
-                                                <div class="mb-2 mr-4">Моля изберете дата:</div>
+                                                <div id="inputDataD" class="mb-2">Моля изберете дата:</div>
                                                 <label for="date"> </label>
-                                                <input id="date" name="date" type="date" placeholder="mm/dd/yyyy">
+                                                <input id="date" class="group-selection-regular" name="date" type="date" placeholder="mm/dd/yyyy">
 
                                             </div>
                                         </div>
@@ -712,27 +712,25 @@
 
                                         <div class="form-group">
                                             <div class="row">
-                                                <div class="mb-2 mr-4">Моля изберете час :</div>
+                                                <div id="inputDataH" class="mb-2">Моля изберете час :</div>
                                                 <label for="time"></label>
-                                                <select id="time" name="time"></select>
+                                                <select id="time" class="group-selection-regular" name="time"></select>
                                             </div>
                                         </div>
 
-                                        <div class="form-group">
-                                            <div id="email-select-group" class="row">
-                                                <div class="mb-2 mr-1">Моля въведете email :</div>
-                                                <div >
-                                                    <label for="email-select"></label>
-                                                    <input id="email-select" name="email" type="email">
-                                                </div>
+                                        <div class="form-group" id="email-select-group">
+                                            <div class="row">
+                                                <div id="inputDataE" class="mb-2">Моля въведете email :</div>
+                                                <label for="email-select"></label>
+                                                <input id="email-select" class="group-selection-regular" name="email" type="email">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <div class="row">
-                                                <div class="mb-2 mr-1">Регистрационен номер :</div>
+                                                <div id="inputDataL" class="mb-2">Регистрационен номер :</div>
                                                 <label for="license"></label>
-                                                <input id="license" name="license" type="text" >
+                                                <input id="license" class="group-selection-regular" name="license" type="text">
                                             </div>
                                         </div>
 

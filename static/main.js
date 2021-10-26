@@ -34,15 +34,17 @@ function showDate(date) {
             for (let i = 9; i < 18; i++) {
                 tableData.innerHTML += (startArray[i]) ?
                     `<tr>
-                    <td>${startArray[i].hour}</td>
-                    <td>${startArray[i].licensePlate}</td>
-                    <td>${startArray[i].name ? startArray[i].name : 'not logged'}</td>
-                    <td>${startArray[i].email}</td>
-                    <td>${startArray[i].date}</td>
-                    <td>${startArray[i].season}</td>
-                    <td>${startArray[i].tires_number}</td>
-                    <td>${startArray[i].size}</td>
-                    </tr>` : `<tr><td>${i}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>`;
+                    <td class="align-middle">${startArray[i].hour}</td>
+                    <td class="align-middle">${startArray[i].licensePlate}</td>
+                    <td class="align-middle">${startArray[i].name ? startArray[i].name : 'not logged'}</td>
+                    <td class="align-middle">${startArray[i].email}</td>
+                    <td class="align-middle">${startArray[i].date}</td>
+                    <td class="align-middle">${startArray[i].season}</td>
+                    <td class="align-middle">${startArray[i].tires_number}</td>
+                    <td class="align-middle">${startArray[i].size}</td>
+                    <td class="align-middle"><button id="deleteBtnTable" class="btn btn-danger mt-2 mb-2" type="button" value="${startArray[i].id}" onclick="deleteCalendarEntry(this)">Delete</button></td>
+                    </tr>` : `<tr><td class="align-middle">${i}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                    <td class="align-middle"><button class="btn btn-danger disabled mt-2 mb-2" type="button">Delete</button></td></tr>`;
             }
         })
         .catch(err => {
@@ -153,6 +155,7 @@ if (`${currentPage()}` === "index.html") {
             dateInput.addEventListener("click", hoursChangeGuest);
             document.getElementById("select-btn").addEventListener("click", hoursChangeRecordGuest);
 
+            // get free hours in calendar for selected date, for not logged user
             function hoursChangeGuest() {
                 let currentDateInput = dateInput.value;
 
@@ -175,12 +178,16 @@ if (`${currentPage()}` === "index.html") {
                     .catch(err => console.log(err));
             }
 
+            // record date and hour for guest user
             function hoursChangeRecordGuest() {
                 let currentDateInput = dateInput.value;
                 let time = timeInput.value;
                 let license = licenseInput.value;
                 let email = emailInput.value;
 
+                let licenseCheck = !!license.match("/(?<=)[A-Z]{2}[0-9]{4}[A-z]{2}?(?=\\s)/gm");
+                let mailCheck = !!email.match("/^(([^<>()[\\]\\\\.,;:\\s@\"]+(\\.[^<>()[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/");
+                if(licenseCheck && mailCheck){
 
                 fetch("api/v1/calendarAddGuest", {
                     method: "POST",
@@ -201,6 +208,12 @@ if (`${currentPage()}` === "index.html") {
                     .catch(err => {
                     });
             }
+                else{
+                    licenseCheck ? " " : licenseInput.className += "-red";
+                    mailCheck ? " " : emailInput.className += "-red";
+                }
+            }
+
         });
 } else if (`${currentPage()}` === "register.html") {
     let customerName = document.getElementById("customerName");
@@ -350,13 +363,13 @@ if (`${currentPage()}` === "index.html") {
     let nextDay = document.getElementById("workCal-Next");
     let today = document.getElementById("workCal-Today");
 
-    prevDay.addEventListener("click", () => {
+
+    prevDay.addEventListener("click", (e) => {
 
         changedDay = changedDay === currentDate ? new Date(currentDate.setDate(currentDate.getDate() - 1)) :
             new Date(changedDay.setDate(changedDay.getDate() - 1));
         showDate(changedDay);
         checkDay = false;
-
     });
 
     nextDay.addEventListener("click", () => {
@@ -371,5 +384,38 @@ if (`${currentPage()}` === "index.html") {
         showDate(changedDay);
         checkDay = false;
     })
+
     checkDay ? showDate(currentDate) : "";
+
+    function deleteCalendarEntry(e) {
+
+        fetch("api/v1/login")
+            .then(res => res.json())
+            .then(auth => {
+
+                if (auth && auth.type === "admin") {
+                    fetch(`api/v1/calendarRemove`, {
+                        method: "DELETE",
+                        headers: new Headers({"Content-type": "application/json"}),
+                        body: JSON.stringify({
+                            id: e.value,
+                        }),
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            window.location.reload();
+                        })
+                        .catch(err => {
+                            window.location.reload();
+                            // console.log("Current error", err);
+                        });
+                }
+
+            })
+            .catch(err => {
+                console.log(err)
+            });
+
+
+    }
 }

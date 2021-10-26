@@ -349,6 +349,25 @@ module.exports.addNewCalendarRecord = function (req, res, next) {
         .catch()
 }
 
+
+module.exports.removeCalendarRecord = function (req, res, next) {
+
+    let deleteId = parseInt(req.body.id);
+
+    const userCalendarTable = sequelize.define("users_calendarModel", {},
+        {tableName: "user_calendar"});
+
+    userCalendarTable.destroy({
+        where: {
+            id: deleteId
+        },
+        force: true
+    })
+        .then(data => res.send("ok"))
+        .catch()
+}
+
+
 module.exports.addNewCalendarRecordGuest = function (req, res, next) {
 
     let date = req.body.currentDateInput;
@@ -477,7 +496,7 @@ module.exports.getCalendarItems = function (req, res, next) {
     const {QueryTypes} = require('sequelize');
     const records = sequelize.query("select Users.id, Users.name, Users.email, Users.phone, " +
         "Cal.date, Cal.licensePlate, " +
-        "Cal.hour, Cal.email, Hotel.size, Hotel.season, Hotel.tires_number from user_calendar as Cal " +
+        "Cal.hour, Cal.id, Cal.email, Hotel.size, Hotel.season, Hotel.tires_number from user_calendar as Cal " +
         "left join users as Users " +
         "on Cal.userId = Users.id " +
         "left join user_hotel as Hotel " +

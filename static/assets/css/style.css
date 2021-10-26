@@ -1948,7 +1948,7 @@ button {
   /*background-image: linear-gradient(lightgray,white,lightgray);*/
 }
 
-#date,#time,#email-select,#license{
+.group-selection-regular{
   border-radius: 5px;
   /*border-color: #3194db;*/
   box-shadow: rgba(0,0,0,0);
@@ -1956,4 +1956,19 @@ button {
   padding: 5px;
   min-width: 250px;
   margin-left: 30px;
+}
+
+.group-selection-regular-red{
+  border-radius: 5px;
+  border-color: red;
+  border-width: thick;
+  box-shadow: rgba(0,0,0,0);
+  outline: none;
+  padding: 5px;
+  min-width: 250px;
+  margin-left: 30px;
+}
+
+#inputDataE, #inputDataD, #inputDataH, #inputDataL{
+  min-width: 200px;
 }
