@@ -156,8 +156,12 @@ if (`${currentPage()}` === "index.html") {
             document.getElementById("select-btn").addEventListener("click", hoursChangeRecordGuest);
 
             // get free hours in calendar for selected date, for not logged user
-            function hoursChangeGuest() {
-                let currentDateInput = dateInput.value;
+            let currentDateInput = dateInput.value;
+            let hoursSetup = document.getElementById("time");
+
+            hoursChangeGuest(currentDateInput,hoursSetup);
+
+            function hoursChangeGuest(currentDateInput,hoursSetup) {
 
                 fetch("api/v1/calendarGet", {
                     method: "POST",
@@ -166,7 +170,7 @@ if (`${currentPage()}` === "index.html") {
                 })
                     .then(res => res.json())
                     .then(data => {
-                            let hoursSetup = document.getElementById("time");
+                            // let hoursSetup = document.getElementById("time");
                             hoursSetup.innerHTML = "";
                             for (let i = 9; i < 18; i++) {
                                 if (data.indexOf(i.toString()) < 0) {
@@ -184,10 +188,18 @@ if (`${currentPage()}` === "index.html") {
                 let time = timeInput.value;
                 let license = licenseInput.value;
                 let email = emailInput.value;
+                let validate = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-                let licenseCheck = !!license.match("/(?<=)[A-Z]{2}[0-9]{4}[A-z]{2}?(?=\\s)/gm");
-                let mailCheck = !!email.match("/^(([^<>()[\\]\\\\.,;:\\s@\"]+(\\.[^<>()[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/");
-                if(licenseCheck && mailCheck){
+                let licenseCheck = !!license.match(/[A-Z]{2}[0-9]{4}[A-z]{2}/);
+                const mailCheck = !!email.match(validate);
+
+                console.log("mail", mailCheck);
+                console.log("license",licenseCheck);
+
+                if (licenseCheck && mailCheck) {
+
+                    licenseInput.className = "group-selection-regular";
+                    emailInput.className = "group-selection-regular";
 
                 fetch("api/v1/calendarAddGuest", {
                     method: "POST",
@@ -209,8 +221,9 @@ if (`${currentPage()}` === "index.html") {
                     });
             }
                 else{
-                    licenseCheck ? " " : licenseInput.className += "-red";
-                    mailCheck ? " " : emailInput.className += "-red";
+                    console.log('asdadadaads')
+                    licenseInput.className =  licenseCheck ? "group-selection-regular" : "group-selection-regular-red";
+                    emailInput.className = mailCheck ? "group-selection-regular" : "group-selection-regular-red";
                 }
             }
 
@@ -386,6 +399,7 @@ if (`${currentPage()}` === "index.html") {
     })
 
     checkDay ? showDate(currentDate) : "";
+// deleteCalendarEntry();
 
     function deleteCalendarEntry(e) {
 
