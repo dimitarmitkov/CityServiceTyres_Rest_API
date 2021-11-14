@@ -704,7 +704,8 @@
                                             <div class="row">
                                                 <div id="inputDataD" class="mb-2">Моля изберете дата:</div>
                                                 <label for="date"> </label>
-                                                <input id="date" class="group-selection-regular" name="date" type="date" placeholder="mm/dd/yyyy">
+                                                <input id="date" class="group-selection-regular" name="date" type="date"
+                                                       placeholder="mm/dd/yyyy">
 
                                             </div>
                                         </div>
@@ -722,7 +723,8 @@
                                             <div class="row">
                                                 <div id="inputDataE" class="mb-2">Моля въведете email :</div>
                                                 <label for="email-select"></label>
-                                                <input id="email-select" class="group-selection-regular" name="email" type="email">
+                                                <input id="email-select" class="group-selection-regular" name="email"
+                                                       type="email">
                                             </div>
                                         </div>
 
@@ -730,9 +732,24 @@
                                             <div class="row">
                                                 <div id="inputDataL" class="mb-2">Регистрационен номер :</div>
                                                 <label for="license"></label>
-                                                <input id="license" class="group-selection-regular" name="license" type="text">
+                                                <input id="license" class="group-selection-regular" name="license"
+                                                       type="text">
                                             </div>
                                         </div>
+
+                                        <div id="day-time-record" class="data-none">
+                                            <!--<div class="alert alert-warning alert-dismissible fade show" role="alert">-->
+                                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Holy guacamole!</strong> You should check in on some of those
+                                                fields
+                                                below.
+                                                <button type="button" class="close" data-dismiss="alert"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
 
                                         <button class="get-started-btn" id="select-btn" type="button">Запазване на час
                                         </button>
@@ -847,7 +864,9 @@
 <script src="assets/season/season_initial.js"></script>
 <script src="assets/email/send_email.js"></script>
 <script src="assets/season/emailValidation.js"></script>
-<script src="main.js"></script>
+<script type="module" src="main.js"></script>
+<!--<script type="module" src="transmitter.js"></script>-->
+<!--<script type="module" src="../functions/workCal.js"></script>-->
 
 </body>
 

@@ -1972,3 +1972,7 @@ button {
 #inputDataE, #inputDataD, #inputDataH, #inputDataL{
   min-width: 200px;
 }
+
+.data-none{
+  display: none;
+}

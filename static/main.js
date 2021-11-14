@@ -1,3 +1,5 @@
+import {deleteCalendarEntry} from "./transmitter.js";
+
 let dateInput = document.getElementById("date");
 let timeInput = document.getElementById("time");
 let licenseInput = document.getElementById("license");
@@ -73,28 +75,36 @@ if (`${currentPage()}` === "index.html") {
                 document.getElementById("select-btn").addEventListener("click", hoursChangeRecord);
                 document.getElementById("email-select-group").style.display = "none";
 
+                // get free hours in calendar for selected date, for logged user
                 function hoursChange() {
-                    let hoursSetup = document.getElementById("time");
                     let currentDateInput = dateInput.value;
+                    let hoursSetup = document.getElementById("time");
 
-                    fetch("api/v1/calendarGet", {
-                        method: "POST",
-                        headers: {"Content-type": "application/json"},
-                        body: JSON.stringify({currentDateInput}),
-                    })
-                        .then(res => res.json())
-                        .then(data => {
-                                let hoursSetup = document.getElementById("time");
-                                hoursSetup.innerHTML = "";
-                                for (let i = 9; i < 18; i++) {
-                                    if (data.indexOf(i.toString()) < 0) {
-                                        hoursSetup.innerHTML += `<option>${i}:00</option>`;
+                    if(checkDateCompareToToday(currentDateInput)) {
+                        dateInput.className =  "group-selection-regular";
+
+                        fetch("api/v1/calendarGet", {
+                            method: "POST",
+                            headers: {"Content-type": "application/json"},
+                            body: JSON.stringify({currentDateInput}),
+                        })
+                            .then(res => res.json())
+                            .then(data => {
+
+                                    hoursSetup.innerHTML = "";
+                                    for (let i = 9; i < 18; i++) {
+                                        if (data.indexOf(i.toString()) < 0) {
+                                            hoursSetup.innerHTML += `<option>${i}:00</option>`;
+                                        }
                                     }
                                 }
-                            }
-                        )
-                        .catch(err => console.log(err));
-
+                            )
+                            .catch(err => console.log(err));
+                    } else {
+                        // dateInput.className =  today>compareDate ? "group-selection-regular" : "group-selection-regular-red";
+                        dateInput.className = "group-selection-regular-red";
+                        hoursSetup.innerText="";
+                    }
                     let carId = auth.car;
 
                     fetch("api/v1/car", {
@@ -111,13 +121,14 @@ if (`${currentPage()}` === "index.html") {
                 }
 
                 function hoursChangeRecord() {
-                    console.log(auth);
                     let currentDateInput = dateInput.value;
                     let time = timeInput.value;
                     let license = licenseInput.value;
                     let userEmail = auth ? auth.email : "";
                     let userId = auth ? auth.id : "";
                     let carId = auth ? auth.car : "";
+
+                    if(currentDateInput && time && license){
 
                     fetch("api/v1/calendarAdd", {
                         method: "POST",
@@ -136,6 +147,10 @@ if (`${currentPage()}` === "index.html") {
                         })
                         .catch(err => {
                         });
+                    }else {
+                        document.getElementById("day-time-record").style.display = "inline";
+                    }
+
                 }
 
                 logout.addEventListener("click", (e) => {
@@ -156,30 +171,34 @@ if (`${currentPage()}` === "index.html") {
             document.getElementById("select-btn").addEventListener("click", hoursChangeRecordGuest);
 
             // get free hours in calendar for selected date, for not logged user
-            let currentDateInput = dateInput.value;
-            let hoursSetup = document.getElementById("time");
+            function hoursChangeGuest() {
+                let currentDateInput = dateInput.value;
+                let hoursSetup = document.getElementById("time");
 
-            hoursChangeGuest(currentDateInput,hoursSetup);
 
-            function hoursChangeGuest(currentDateInput,hoursSetup) {
+                if (checkDateCompareToToday(currentDateInput)) {
 
-                fetch("api/v1/calendarGet", {
-                    method: "POST",
-                    headers: {"Content-type": "application/json"},
-                    body: JSON.stringify({currentDateInput}),
-                })
-                    .then(res => res.json())
-                    .then(data => {
-                            // let hoursSetup = document.getElementById("time");
-                            hoursSetup.innerHTML = "";
-                            for (let i = 9; i < 18; i++) {
-                                if (data.indexOf(i.toString()) < 0) {
-                                    hoursSetup.innerHTML += `<option>${i}:00</option>`;
+                    fetch("api/v1/calendarGet", {
+                        method: "POST",
+                        headers: {"Content-type": "application/json"},
+                        body: JSON.stringify({currentDateInput}),
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+                                hoursSetup.innerHTML = "";
+                                for (let i = 9; i < 18; i++) {
+                                    if (data.indexOf(i.toString()) < 0) {
+                                        hoursSetup.innerHTML += `<option>${i}:00</option>`;
+                                    }
                                 }
                             }
-                        }
-                    )
-                    .catch(err => console.log(err));
+                        )
+                        .catch(err => {
+                            alert("You are not logged. Please login.")
+                        });
+                } else {
+                    hoursSetup.innerHTML="";
+                }
             }
 
             // record date and hour for guest user
@@ -193,38 +212,39 @@ if (`${currentPage()}` === "index.html") {
                 let licenseCheck = !!license.match(/[A-Z]{2}[0-9]{4}[A-z]{2}/);
                 const mailCheck = !!email.match(validate);
 
-                console.log("mail", mailCheck);
-                console.log("license",licenseCheck);
 
-                if (licenseCheck && mailCheck) {
+                    if (licenseCheck && mailCheck && time && currentDateInput) {
 
-                    licenseInput.className = "group-selection-regular";
-                    emailInput.className = "group-selection-regular";
+                        licenseInput.className = "group-selection-regular";
+                        emailInput.className = "group-selection-regular";
+                        dateInput.className = "group-selection-regular";
+                        // timeInput.className = "group-selection-regular";
 
-                fetch("api/v1/calendarAddGuest", {
-                    method: "POST",
-                    headers: {"Content-type": "application/json"},
-                    body: JSON.stringify({currentDateInput, license, time, email}),
-                })
-                    .then(res => {
-                        if (res) {
-                        }
-                    })
-                    .then(data => {
-                        dateInput.value = "";
-                        timeInput.value = "";
-                        licenseInput.value = "";
-                        emailInput.value = "";
-                        window.location.reload();
-                    })
-                    .catch(err => {
-                    });
-            }
-                else{
-                    console.log('asdadadaads')
-                    licenseInput.className =  licenseCheck ? "group-selection-regular" : "group-selection-regular-red";
-                    emailInput.className = mailCheck ? "group-selection-regular" : "group-selection-regular-red";
-                }
+                        fetch("api/v1/calendarAddGuest", {
+                            method: "POST",
+                            headers: {"Content-type": "application/json"},
+                            body: JSON.stringify({currentDateInput, license, time, email}),
+                        })
+                            .then(res => {
+                                if (res) {
+                                }
+                            })
+                            .then(data => {
+                                dateInput.value = "";
+                                timeInput.value = "";
+                                licenseInput.value = "";
+                                emailInput.value = "";
+                                window.location.reload();
+                            })
+                            .catch(err => {
+                            });
+                    }
+                    else{
+                        licenseInput.className =  licenseCheck ? "group-selection-regular" : "group-selection-regular-red";
+                        emailInput.className = mailCheck ? "group-selection-regular" : "group-selection-regular-red";
+                        dateInput.className = checkDateCompareToToday(currentDateInput) ? "group-selection-regular" : "group-selection-regular-red";
+                        // timeInput.className = "group-selection-regular-red";
+                    }
             }
 
         });
@@ -371,65 +391,93 @@ if (`${currentPage()}` === "index.html") {
 
 
 } else if (`${currentPage()}` === "workCal.html") {
-    document.getElementById("today").innerText = changedDay.toString().substring(0, 16);
-    let prevDay = document.getElementById("workCal-Previous");
-    let nextDay = document.getElementById("workCal-Next");
-    let today = document.getElementById("workCal-Today");
+
+    fetch("api/v1/login")
+        .then(res => res.json())
+        .then(auth => {
+
+            console.log(auth);
+            if (auth) {
+
+            } else {
+                alert('Not logged')
+            }
+            document.getElementById("today").innerText = changedDay.toString().substring(0, 16);
+            let prevDay = document.getElementById("workCal-Previous");
+            let nextDay = document.getElementById("workCal-Next");
+            let today = document.getElementById("workCal-Today");
 
 
-    prevDay.addEventListener("click", (e) => {
+            prevDay.addEventListener("click", (e) => {
 
-        changedDay = changedDay === currentDate ? new Date(currentDate.setDate(currentDate.getDate() - 1)) :
-            new Date(changedDay.setDate(changedDay.getDate() - 1));
-        showDate(changedDay);
-        checkDay = false;
-    });
-
-    nextDay.addEventListener("click", () => {
-        changedDay = changedDay === currentDate ? new Date(currentDate.setDate(currentDate.getDate() + 1)) :
-            new Date(changedDay.setDate(changedDay.getDate() + 1));
-        showDate(changedDay);
-        checkDay = false;
-    });
-
-    today.addEventListener("click", () => {
-        changedDay = new Date();
-        showDate(changedDay);
-        checkDay = false;
-    })
-
-    checkDay ? showDate(currentDate) : "";
-// deleteCalendarEntry();
-
-    function deleteCalendarEntry(e) {
-
-        fetch("api/v1/login")
-            .then(res => res.json())
-            .then(auth => {
-
-                if (auth && auth.type === "admin") {
-                    fetch(`api/v1/calendarRemove`, {
-                        method: "DELETE",
-                        headers: new Headers({"Content-type": "application/json"}),
-                        body: JSON.stringify({
-                            id: e.value,
-                        }),
-                    })
-                        .then(res => res.json())
-                        .then(data => {
-                            window.location.reload();
-                        })
-                        .catch(err => {
-                            window.location.reload();
-                            // console.log("Current error", err);
-                        });
-                }
-
-            })
-            .catch(err => {
-                console.log(err)
+                changedDay = changedDay === currentDate ? new Date(currentDate.setDate(currentDate.getDate() - 1)) :
+                    new Date(changedDay.setDate(changedDay.getDate() - 1));
+                showDate(changedDay);
+                checkDay = false;
             });
 
+            nextDay.addEventListener("click", () => {
+                changedDay = changedDay === currentDate ? new Date(currentDate.setDate(currentDate.getDate() + 1)) :
+                    new Date(changedDay.setDate(changedDay.getDate() + 1));
+                showDate(changedDay);
+                checkDay = false;
+            });
 
-    }
+            today.addEventListener("click", () => {
+                changedDay = new Date();
+                showDate(changedDay);
+                checkDay = false;
+            })
+
+            checkDay ? showDate(currentDate) : "";
+
+// deleteCalendarEntry();
+
+            deleteCalendarEntry(e);
+
+            // function deleteCalendarEntry(e) {
+            //
+            //     // fetch("api/v1/login")
+            //     //     .then(res => res.json())
+            //     //     .then(auth => {
+            //
+            //     if (auth && auth.type === "admin") {
+            //         fetch(`api/v1/calendarRemove`, {
+            //             method: "DELETE",
+            //             headers: new Headers({"Content-type": "application/json"}),
+            //             body: JSON.stringify({
+            //                 id: e.value,
+            //             }),
+            //         })
+            //             .then(res => res.json())
+            //             .then(data => {
+            //                 window.location.reload();
+            //             })
+            //             .catch(err => {
+            //                 window.location.reload();
+            //                 // console.log("Current error", err);
+            //             });
+            //     }
+            //
+            //     // })
+            //     // // here
+            //     // .catch(err => {
+            //     //     console.log(err)
+            //     // });
+            // }
+        })
+        // here
+        .catch(err => {
+
+        });
+
+}
+
+
+function checkDateCompareToToday(currentDateInput){
+
+    let today = new Date();
+    let compareDate = currentDateInput ? new Date(currentDateInput) : new Date();
+
+    return today.toISOString().substring(0, 10) <= compareDate.toISOString().substring(0, 10);
 }
