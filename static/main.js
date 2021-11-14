@@ -431,7 +431,6 @@ if (`${currentPage()}` === "index.html") {
 
             checkDay ? showDate(currentDate) : "";
 
-// deleteCalendarEntry();
 
             deleteCalendarEntry(e);
 
