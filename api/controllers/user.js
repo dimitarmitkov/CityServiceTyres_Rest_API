@@ -211,7 +211,7 @@ module.exports.loginUser = function (req, res, next) {
                                 car: car[0].dataValues.id,
                             },
                             `${myKey}`,
-                            {expiresIn: '300s'});
+                            {expiresIn: '3000s'});
 
                         const user_loggedTable = sequelize.define("user_loggedModel", {userId, token},
                             {tableName: "user_logged"});
@@ -289,6 +289,47 @@ module.exports.deleteUser = function (req, res, next) {
             res.send(JSON.stringify(customers, null, 2));
         })
         .catch(next => console.log(next, "err"));
+}
+
+module.exports.getSingleUser = function (req, res, next) {
+    console.log(req.params.id);
+    let idData = req.params.id;
+
+    // const userTable = sequelize.define("usersModel", {} ,
+    //     {tableName: "users"});
+    //
+    // userTable.findOne(
+    //     {
+    //         attributes: ['id', 'name', 'email', 'password', 'type', 'deleted'],
+    //         where: {
+    //             id: idData
+    //         }
+    //     })
+    //     .then(customers => {
+    //
+    //         console.log(JSON.stringify(customers, null, 2), "res");
+    //         res.send(JSON.stringify(customers, null, 2));
+    //     })
+    //     .catch(next => console.log(next, "err"));
+
+    const {QueryTypes} = require('sequelize');
+    const records = sequelize.query("select Users.id, Users.name, Users.email, Users.phone, Cars.CarMake," +
+        "Cars.carModel, Hotel.tires_number, Hotel.tires_producer, Hotel.season, Hotel.size from users as Users " +
+        "left join user_cars as Cars " +
+        "on Users.id = Cars.userId " +
+        "left join user_hotel Hotel " +
+        "on Cars.userId = Hotel.userId " +
+        "where Users.id = ?"
+        ,
+        {
+            replacements: [`${idData}`],
+            type: QueryTypes.SELECT})
+        .then(result => {
+
+            // console.log(JSON.stringify(result, null, 2));
+
+            res.send(JSON.stringify(result, null, 2));
+        }).catch(next => console.log(next));
 }
 
 module.exports.addCalendarRecord = function (req, res, next) {

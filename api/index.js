@@ -20,6 +20,7 @@ module.exports.connect = function (path, app) {
 
 
   router.route("/users/:id")
+      .post(userController.getSingleUser)
       .put(userController.updateUser)
       .delete(userController.deleteUser);
 
