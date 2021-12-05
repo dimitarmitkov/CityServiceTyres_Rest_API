@@ -9,7 +9,6 @@ const jwt = require("jsonwebtoken");
 const dotenv = require('dotenv');
 const myKey = require("../connection/myKey");
 
-// const sequelize = new Sequelize('database', 'username', 'password', {
 const sequelize = new Sequelize(cs.database, cs.user, cs.password, {
     host: cs.host,
     port: cs.port,
@@ -36,9 +35,6 @@ module.exports.createUser = function (req, res, next) {
         make,
         model,
         plate
-        // regDate,
-        // type,
-        // deleted
     } = req.body;
 
     const password = bcrypt.hashSync(`${insertPassword}`, 10);
@@ -52,9 +48,6 @@ module.exports.createUser = function (req, res, next) {
             email,
             password,
             phone,
-            // regDate,
-            // type,
-            // deleted
         },
         {tableName: "users"});
 
@@ -65,9 +58,6 @@ module.exports.createUser = function (req, res, next) {
             email,
             password,
             phone,
-            // regDate,
-            // type,
-            // deleted
         }).then(customer => {
             console.log(customer.dataValues.id);
             let userId = customer.dataValues.id;
@@ -89,7 +79,6 @@ module.exports.createUser = function (req, res, next) {
                     res.satus(400).send('some error')
                 });
 
-            // res.status(201).send(customer);
         }).catch(next => {
             res.status(400).send('already exists')
         });
@@ -117,7 +106,6 @@ module.exports.getUsers = function (req, res, next) {
             let currentToken = firstElement.dataValues.token;
             let tokenId = firstElement.dataValues.id;
 
-            // const payload = jwt.verify(currentToken,`${myKey}`)?jwt.verify(currentToken,`${myKey}`):false;
             jwt.verify(currentToken, `${myKey}`, (err, user) => {
                 if (err) {
                     loggedUser.destroy(
@@ -137,8 +125,6 @@ module.exports.getUsers = function (req, res, next) {
         })
         .catch(err => console.log(err));
 
-    // console.log(req);
-
     const {QueryTypes} = require('sequelize');
     const records = sequelize.query("select Users.id, Users.name, Users.email, Users.phone, Cars.CarMake, " +
         "Cars.carModel from users as Users left join user_cars as Cars " +
@@ -147,26 +133,8 @@ module.exports.getUsers = function (req, res, next) {
         {
             type: QueryTypes.SELECT
         }).then(result => {
-
-        // console.log(JSON.stringify(result, null, 2));
-
         res.send(JSON.stringify(result, null, 2));
     }).catch(next => console.log(next));
-
-
-    // userTable.findAll(
-    //     {
-    //         attributes: ['id', 'name', 'email', 'type', 'deleted', 'phone'],
-    //         where: {deleted : "0"},
-    //     },
-    //
-    // ).then(customers =>{
-    //     customers.every(user => user instanceof userTable);
-    //
-    //     // console.log(JSON.stringify(customers, null, 2));
-    //
-    //     res.send(JSON.stringify(customers, null, 2));
-    // }).catch(next);
 }
 
 
@@ -202,7 +170,6 @@ module.exports.loginUser = function (req, res, next) {
 
                         let token = jwt.sign(
                             {
-
                                 username: user.dataValues.name,
                                 id: user.dataValues.id,
                                 type: user.dataValues.type,
@@ -295,23 +262,6 @@ module.exports.getSingleUser = function (req, res, next) {
     console.log(req.params.id);
     let idData = req.params.id;
 
-    // const userTable = sequelize.define("usersModel", {} ,
-    //     {tableName: "users"});
-    //
-    // userTable.findOne(
-    //     {
-    //         attributes: ['id', 'name', 'email', 'password', 'type', 'deleted'],
-    //         where: {
-    //             id: idData
-    //         }
-    //     })
-    //     .then(customers => {
-    //
-    //         console.log(JSON.stringify(customers, null, 2), "res");
-    //         res.send(JSON.stringify(customers, null, 2));
-    //     })
-    //     .catch(next => console.log(next, "err"));
-
     const {QueryTypes} = require('sequelize');
     const records = sequelize.query("select Users.id, Users.name, Users.email, Users.phone, Cars.CarMake," +
         "Cars.carModel, Hotel.tires_number, Hotel.tires_producer, Hotel.season, Hotel.size from users as Users " +
@@ -325,9 +275,6 @@ module.exports.getSingleUser = function (req, res, next) {
             replacements: [`${idData}`],
             type: QueryTypes.SELECT})
         .then(result => {
-
-            // console.log(JSON.stringify(result, null, 2));
-
             res.send(JSON.stringify(result, null, 2));
         }).catch(next => console.log(next));
 }
@@ -345,7 +292,6 @@ module.exports.addCalendarRecord = function (req, res, next) {
             let currentToken = firstElement.dataValues.token;
             let tokenId = firstElement.dataValues.id;
 
-            // const payload = jwt.verify(currentToken,`${myKey}`)?jwt.verify(currentToken,`${myKey}`):false;
             jwt.verify(currentToken, `${myKey}`, (err, user) => {
                 if (err) {
                     loggedUser.destroy(
@@ -371,7 +317,6 @@ module.exports.addCalendarRecord = function (req, res, next) {
             // console.log(payload.exp);
         })
         .catch(err => console.log(err));
-
 }
 
 module.exports.addNewCalendarRecord = function (req, res, next) {
@@ -389,7 +334,6 @@ module.exports.addNewCalendarRecord = function (req, res, next) {
         .then(data => res.send("ok"))
         .catch()
 }
-
 
 module.exports.removeCalendarRecord = function (req, res, next) {
 
@@ -441,46 +385,6 @@ module.exports.authorization = function (req, res, next) {
     }
 }
 
-// module.exports.calendarGetHoursTaken = function (req, res, next) {
-//
-//     // const date = new Date(`${req.body}`);
-//     const dateInUse = new Date(req.params.date);
-//     const date = dateInUse.toISOString().split('T')[0];
-//     const hour = 0;
-//     let responseArray = [];
-//
-//     const calendarTable = sequelize.define("user_calendarModel", {
-//             date,
-//             hour
-//         },
-//         {tableName: "user_calendar"});
-//
-//     calendarTable.findAll({
-//         attributes: ['date','hour'],
-//         where: {date : date},
-//         returning: true
-//     })
-//         .then(data=>{
-//             // for (const dataKey in data) {
-//             //     console.log(dataKey.dataValues.hour);
-//             //     res.send(dataKey.dataValues.hour);
-//             // }
-//
-//             for (let i = 0; i < data.length; i++) {
-//                 responseArray.push(data[i].dataValues.hour);
-//             }
-// console.log(responseArray);
-//             res.send(responseArray);
-//             // res.send("AAAAAAAA");
-//                 // console.log(data[0].dataValues.hour);
-//             // res.send(JSON.stringify(responseArray, null, 2));
-//             // return responseArray;
-//         })
-//         .catch(err=> res.send(err));
-//
-//
-// }
-
 module.exports.calendarGetHoursTaken = function (req, res, next) {
 
     const dateInUse = new Date(req.body.currentDateInput);
@@ -506,8 +410,6 @@ module.exports.calendarGetHoursTaken = function (req, res, next) {
             res.send(responseArray);
         })
         .catch(err => res.send(err));
-
-
 }
 
 module.exports.getCarLicensePlate = function (req, res, next) {

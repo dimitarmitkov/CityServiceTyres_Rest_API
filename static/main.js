@@ -300,61 +300,6 @@ if (`${currentPage()}` === "index.html") {
         customerCarModel.value = "";
         customerCarLicensePlate.value = "";
     }
-} else if (`${currentPage()}` === "getAll.html") {
-    // let content = document.getElementById("content");
-    //
-    // fetch("api/v1/users", {
-    //     method: "GET",
-    // })
-    //     .then(res => res.json())
-    //     .then(data => {
-    //         for (let i = 0; i < Object.entries(data).length; i++) {
-    //             let [currentObjectData] = (Object.entries(data)[i]).slice(-1);
-    //
-    //             content.innerHTML +=
-    //                 `<div class="row">
-    //                     <div class="col-24 col-md-1 align-baseline text-center text-nowrap text-truncate border">${currentObjectData.id}</div>
-    //                     <div class="col-24 col-md-2 align-middle text-left text-nowrap text-truncate border">${currentObjectData.name}</div>
-    //                     <div class="col-24 col-md-2 align-middle text-left text-nowrap text-truncate border">${currentObjectData.email}</div>
-    //                     <div class="col-24 col-md-2 align-middle text-left text-nowrap text-truncate border">${currentObjectData.phone}</div>
-    //                     <div class="col-24 col-md-1 align-middle text-center text-truncate border">${currentObjectData.CarMake}</div>
-    //                     <div class="col-24 col-md-1 align-middle text-center border">${currentObjectData.carModel}</div>
-    //                     <div class="col-24 col-md-2 align-middle text-center text-nowrap text-truncate border">
-    //                         <button id="deleteBtn_${currentObjectData.id}" class="btn btn-danger mt-2 mb-2" type="button">Delete</button>
-    //                         <button id="editBtn_${currentObjectData.id}" class="btn btn-info mt-2 mb-2" type="button">Edit</button>
-    //                     </div>
-    //                  </div>`;
-    //         }
-    //
-    //         document.addEventListener("click", currentEventHandler);
-    //
-    //         function currentEventHandler(e) {
-    //             let currentId = e.target.localName === "button" ? (e.target.attributes.id.nodeValue).replace(/\D/g, "") : "";
-    //
-    //             if (e.target.localName === "button" && (e.target.attributes.id.nodeValue).includes("editBtn")) {
-    //
-    //             } else if (e.target.localName === "button" && (e.target.attributes.id.nodeValue).includes("deleteBtn")) {
-    //
-    //                 fetch(`api/v1/users/${currentId}`, {
-    //                     method: "DELETE",
-    //                     headers: new Headers({"Content-type": "application/json"}),
-    //                     body: JSON.stringify({
-    //                         id: currentId,
-    //                     }),
-    //                 })
-    //                     .then(res => res.json())
-    //                     .then(data => {
-    //                         window.location.reload();
-    //                     })
-    //                     .catch(err => {
-    //                         console.log("Current error", err);
-    //                     });
-    //             }
-    //         }
-    //     })
-    //     .catch(err => {
-    //         console.log("Current error", err);
-    //     });
 } else if (`${currentPage()}` === "login.html") {
 
     let login = document.getElementById("loginSubmitBtn");
@@ -391,70 +336,6 @@ if (`${currentPage()}` === "index.html") {
         customerEmail.value = "";
         customerPassword.value = "";
     }
-
-
-} else if (`${currentPage()}` === "workCal.html") {
-
-    // document.getElementById("today").innerText = changedDay.toString().substring(0, 16);
-    // let prevDay = document.getElementById("workCal-Previous");
-    // let nextDay = document.getElementById("workCal-Next");
-    // let today = document.getElementById("workCal-Today");
-    //
-    //
-    // prevDay.addEventListener("click", (e) => {
-    //
-    //     changedDay = changedDay === currentDate ? new Date(currentDate.setDate(currentDate.getDate() - 1)) :
-    //         new Date(changedDay.setDate(changedDay.getDate() - 1));
-    //     showDate(changedDay);
-    //     checkDay = false;
-    // });
-    //
-    // nextDay.addEventListener("click", () => {
-    //     changedDay = changedDay === currentDate ? new Date(currentDate.setDate(currentDate.getDate() + 1)) :
-    //         new Date(changedDay.setDate(changedDay.getDate() + 1));
-    //     showDate(changedDay);
-    //     checkDay = false;
-    // });
-    //
-    // today.addEventListener("click", () => {
-    //     changedDay = new Date();
-    //     showDate(changedDay);
-    //     checkDay = false;
-    // })
-    //
-    // checkDay ? showDate(currentDate) : "";
-    //
-    //
-    // function deleteCalendarEntry(e) {
-    //
-    //     fetch("api/v1/login")
-    //         .then(res => res.json())
-    //         .then(auth => {
-    //
-    //             if (auth && auth.type === "admin") {
-    //                 fetch(`api/v1/calendarRemove`, {
-    //                     method: "DELETE",
-    //                     headers: new Headers({"Content-type": "application/json"}),
-    //                     body: JSON.stringify({
-    //                         id: e.value,
-    //                     }),
-    //                 })
-    //                     .then(res => res.json())
-    //                     .then(data => {
-    //                         window.location.reload();
-    //                     })
-    //                     .catch(err => {
-    //                         window.location.reload();
-    //                         // console.log("Current error", err);
-    //                     });
-    //             }
-    //
-    //         })
-    //         // here
-    //         .catch(err => {
-    //             console.log(err)
-    //         });
-    // }
 }
 
 
