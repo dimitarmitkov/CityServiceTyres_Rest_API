@@ -1,1 +1,0 @@
-module.exports = require('crypto').randomBytes(256).toString('hex');
