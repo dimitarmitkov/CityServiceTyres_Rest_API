@@ -439,4 +439,3 @@ module.exports.getCalendarItems = function (req, res, next) {
         res.send(JSON.stringify(result, null, 2));
     }).catch(next => console.log(next));
 }
-
