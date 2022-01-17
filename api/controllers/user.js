@@ -436,7 +436,6 @@ module.exports.getCalendarItems = function (req, res, next) {
             type: QueryTypes.SELECT
         }).then(result => {
 
-
         res.send(JSON.stringify(result, null, 2));
     }).catch(next => console.log(next));
 }
