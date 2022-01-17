@@ -35,42 +35,60 @@
     <link href="assets/vendor/aos/aos.css" rel="stylesheet">
 
     <!-- Template Main CSS File -->
-    <link href="assets/css/style.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <link href="assets/css/style.css" rel="stylesheet">
 
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
 </head>
 
 <body>
 
 <!-- ======= Header ======= -->
 <header id="header" class="fixed-top">
+
     <div class="container d-flex align-items-center">
+        <div class="col-2">
+            <a href="index.html" class="logo mr-auto"><img src="assets/img/icon.png" alt="" class="img-fluid"></a>
+            <h1 class="logo mr-auto"><a href="index.html">Сити Сървиз Груп ЕООД</a></h1>
+            <!-- Uncomment below if you prefer to use an image logo -->
 
-        <h1 class="logo mr-auto"><a href="index.html">Сити Сървиз Груп ЕООД</a></h1>
-        <!-- Uncomment below if you prefer to use an image logo -->
-        <a href="index.html" class="logo mr-auto"><img src="assets/img/icon.png" alt="" class="img-fluid"></a>
+        </div>
 
-        <nav class="nav-menu d-none d-lg-block">
-            <ul>
-                <!--          <li class="active"><a href="index.html">Home</a></li>-->
-                <li class="active"><a href="#hero">Home</a></li>
-                <li><a href="#about">За нас</a></li>
-                <li><a href="#services">Нашите услуги</a></li>
-                <li><a href="#team">Нашият екип</a></li>
-                <li><a href="#pricing">Цени</a></li>
-                <li><a href="#contact">Контакти</a></li>
+        <div class="col-6">
+            <nav class="nav-menu d-none d-lg-block">
+                <ul>
+                    <!--          <li class="active"><a href="index.html">Home</a></li>-->
+                    <li class="active"><a href="#hero">Home</a></li>
+                    <li><a href="#about">За нас</a></li>
+                    <li><a href="#services">Нашите услуги</a></li>
+                    <li><a href="#team">Нашият екип</a></li>
+                    <li><a href="#pricing">Цени</a></li>
+                    <li><a href="#contact">Контакти</a></li>
 
-            </ul>
-        </nav><!-- .nav-menu -->
+                </ul>
+            </nav><!-- .nav-menu -->
+        </div>
+        <div class="col-4">
+            <!--            <div class="row">-->
+            <div class="row mb-2 mt-5">
+                <a href="#tires" class="get-started-btn scrollto nav-button">Запази час</a>
+            </div>
+            <div class="row mb-2">
+                <a id="loginSelector" href="login.html" class="get-started-btn scrollto nav-button">Login</a>
+                <a id="logoutSelector" href="" class="get-started-btn scrollto nav-button"
+                   style="display: none">Logout</a>
+                <a id="registerSelector" href="register.html" class="get-started-btn scrollto"
+                   style="display: none">Register</a>
+            </div>
 
-        <a href="#tires" class="get-started-btn scrollto">Запазване на час</a>
-        <a id="loginSelector" href="login.html" class="get-started-btn scrollto">Login</a>
-        <a id="logoutSelector" href="" class="get-started-btn scrollto" style="display: none">Logout</a>
-        <a id="registerSelector" href="register.html" class="get-started-btn scrollto"
-           style="display: none">Register</a>
-        <a id="getAllSelector" href="controlPanel.html" class="get-started-btn scrollto" style="display: none">Control Panel</a>
-<!--        <a id="getCalendar" href="./workCal.html" class="get-started-btn scrollto" style="display: none">Calendar</a>-->
-
+            <div class="row mb-2">
+                <a id="getAllSelector" href="controlPanel.html" class="get-started-btn scrollto nav-button"
+                   style="display: none">Control Panel</a>
+            </div>
+        </div>
     </div>
 </header><!-- End Header -->
 
@@ -704,11 +722,18 @@
                                             <div class="row">
                                                 <div id="inputDataD" class="mb-2">Моля изберете дата:</div>
                                                 <label for="date"> </label>
-                                                <input id="date" class="group-selection-regular" name="date" type="date"
-                                                       placeholder="mm/dd/yyyy">
+<!--                                                <input id="date" class="group-selection-regular" name="date" type="date"-->
+<!--                                                       placeholder="mm/dd/yyyy">-->
+                                                <input class="group-selection-regular datepicker" id="date" size="16" type="text">
+
 
                                             </div>
                                         </div>
+
+<!--                                        <div class="row" id="dp3" data-date="12-02-2012" data-date-format="dd-mm-yyyy">-->
+<!--                                            <span class="add-on"><i class='bx bxs-calendar'></i></span>-->
+<!--                                            <input class="group-selection-regular" id="datepicker" size="16" type="text">-->
+<!--                                        </div>-->
 
 
                                         <div class="form-group">
@@ -724,7 +749,7 @@
                                                 <div id="inputDataE" class="mb-2">Моля въведете email :</div>
                                                 <label for="email-select"></label>
                                                 <input id="email-select" class="group-selection-regular" name="email"
-                                                       type="email">
+                                                       type="email" placeholder="email">
                                             </div>
                                         </div>
 
@@ -865,6 +890,27 @@
 <script src="assets/email/send_email.js"></script>
 <script src="assets/season/emailValidation.js"></script>
 <script type="module" src="main.js"></script>
+
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $(document).ready(function(){
+
+        $(".datepicker").datepicker({
+            placeholder: 'Choose a date',
+            dateFormat: 'yy-mm-dd',
+        });
+    });
+
+    // $(".datepicker").on("change", function() {
+    //     let pickedDate = $("input").val();
+    //     console.log(pickedDate);
+    // });
+    //
+    // document.getElementById('ui-datepicker-div').style.backgroundColor = 'white';
+
+</script>
 
 </body>
 

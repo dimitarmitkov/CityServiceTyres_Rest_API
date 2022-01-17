@@ -14,6 +14,27 @@ let logout = document.getElementById("logoutSelector");
 //     return path.split("/").pop();
 // }
 
+// dateInput.placeholder = 'currentDate';
+
+let pickedDate;
+
+$(document).ready(function(){
+
+    $(".datepicker").datepicker({
+        placeholder: 'Choose a date',
+        format: 'yyyy-mm-dd',
+    });
+});
+
+// $(".datepicker").on("change", function() {
+//     pickedDate = $("input").val();
+//     console.log(pickedDate);
+// });
+
+
+
+dateInput.setAttribute('min',currentDate.toISOString().substring(0, 10));
+
 fetch("api/v1/login")
     .then(res => res.json())
     .then(auth => {
@@ -23,7 +44,6 @@ fetch("api/v1/login")
         if (auth) {
             if (auth.type === "admin") {
                 document.getElementById("getAllSelector").style.display = "inline";
-                // document.getElementById("getCalendar").style.display = "inline";
             }
 
             logout.style.display = "inline";
@@ -32,11 +52,18 @@ fetch("api/v1/login")
             dateInput.addEventListener("click", hoursChange);
             document.getElementById("select-btn").addEventListener("click", hoursChangeRecord);
             document.getElementById("email-select-group").style.display = "none";
+            //
+            // $(".datepicker").on("change", function() {
+            //     pickedDate = $("input").val();
+            //     hoursChange(pickedDate);
+            // });
 
             // get free hours in calendar for selected date, for logged user
             function hoursChange() {
                 let currentDateInput = dateInput.value;
                 let hoursSetup = document.getElementById("time");
+
+                console.log('current date input: ', currentDateInput);
 
                 if (checkDateCompareToToday(currentDateInput)) {
                     dateInput.className = "group-selection-regular";
@@ -59,7 +86,6 @@ fetch("api/v1/login")
                         )
                         .catch(err => console.log(err));
                 } else {
-                    // dateInput.className =  today>compareDate ? "group-selection-regular" : "group-selection-regular-red";
                     dateInput.className = "group-selection-regular-red";
                     hoursSetup.innerText = "";
                 }
@@ -121,8 +147,6 @@ fetch("api/v1/login")
                     })
                     .catch(err => console.log(err));
             });
-
-            //end
         }
     })
     .catch(err => {
@@ -130,13 +154,24 @@ fetch("api/v1/login")
         dateInput.addEventListener("click", hoursChangeGuest);
         document.getElementById("select-btn").addEventListener("click", hoursChangeRecordGuest);
 
+        let currentDateInput;
+
+        $(".datepicker").on("click change", function() {
+            let pickedDate = $("input").val();
+            currentDateInput = $("input").val();
+            console.log(pickedDate);
+        });
+
         // get free hours in calendar for selected date, for not logged user
         function hoursChangeGuest() {
-            let currentDateInput = dateInput.value;
+            // let currentDateInput = dateInput.value;
             let hoursSetup = document.getElementById("time");
+
+            console.log('current date input: ', currentDateInput);
 
 
             if (checkDateCompareToToday(currentDateInput)) {
+                dateInput.className = "group-selection-regular";
 
                 fetch("api/v1/calendarGet", {
                     method: "POST",
@@ -154,10 +189,11 @@ fetch("api/v1/login")
                         }
                     )
                     .catch(err => {
-                        alert("You are not logged. Please login.")
+                        // alert("You are not logged. Please login.")
                     });
             } else {
                 hoursSetup.innerHTML = "";
+                dateInput.className = checkDateCompareToToday(currentDateInput) ? "group-selection-regular" : "group-selection-regular-red";
             }
         }
 

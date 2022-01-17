@@ -290,6 +290,11 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+.nav-button{
+  min-width: 150px !important;
+  text-align: center !important;
+}
+
 /* Mobile Navigation */
 .mobile-nav-toggle {
   position: fixed;
@@ -1975,4 +1980,43 @@ button {
 
 .data-none{
   display: none;
+}
+
+.ui-datepicker{
+  background-color: white;
+  border-radius: 10px;
+}
+
+.ui-datepicker-prev, .ui-datepicker-next{
+  margin-right: 10px;
+  font-weight: bolder;
+  margin-left: 10px;
+  background-color: grey;
+  color: white !important;
+  padding: 0 5px 0 5px;
+}
+
+.ui-datepicker-header{
+  margin-top: 10px;
+}
+
+.ui-state-default{
+  color: black;
+  margin-right: 5px;
+}
+
+.ui-datepicker-month{
+  margin-left: 10px;
+}
+
+.ui-datepicker-calendar{
+  margin: 10px;
+}
+
+
+@media screen and (max-width: 992px) {
+
+  #date, #inputDataD {
+    min-height: 36px;
+  }
 }

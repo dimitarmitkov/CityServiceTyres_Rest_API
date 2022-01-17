@@ -1,13 +1,95 @@
-
-
-section:nth-child(1) {
-    position: absolute;
-    top : 20%;
+.container {
+    margin-top: 10%;
     height: 100%;
     width: 100%;
 }
 
-.container-fluid > div:nth-child(1) {
+div.row.mt-4.sub-btn{
     text-align: center;
+}
 
+.btn-primary{
+    width: 15%;
+}
+
+@media screen and (max-width: 992px) {
+
+    div.row:nth-child(2) > div:nth-child(1) > h1:nth-child(1){
+        font-size: 5.5rem;
+    }
+
+    #customerPassword, #customerEmail,#customerName,
+    #customerCarMake,
+    #customerPhone,
+    #confirmPassword,
+    .form-check, .btn-primary{
+        height: 100px;
+        width: 100%;
+    }
+
+    #customerCarModel,
+    #customerCarLicensePlate{
+        height: 100px;
+        width: 100%;
+    }
+
+
+    #customerPassword,
+    #confirmPassword,
+    #customerEmail,#customerName,
+    #customerCarMake,
+    #customerPhone,
+    #customerCarModel,
+    #customerCarLicensePlate,
+    .form-check, .btn-primary{
+        font-size: xx-large;
+    }
+
+    .form-check-input{
+        width: 30px;
+        height: 30px;
+    }
+
+    #checkBoxSpan{
+        margin-left: 20px;
+    }
+
+}
+
+
+#customerName::placeholder,
+#customerPhone::placeholder,
+#customerPassword::placeholder,
+#confirmPassword::placeholder,
+#customerEmail::placeholder,
+#customerCarMake::placeholder,
+#customerCarModel::placeholder,
+#customerCarLicensePlate::placeholder
+{ /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: darkgrey;
+    opacity: 1; /* Firefox */
+}
+
+#customerName:-ms-input-placeholder,
+#customerPhone:-ms-input-placeholder,
+#customerPassword:-ms-input-placeholder,
+#confirmPassword:-ms-input-placeholder,
+#customerEmail:-ms-input-placeholder,
+#customerCarMake:-ms-input-placeholder,
+#customerCarModel:-ms-input-placeholder,
+#customerCarLicensePlate:-ms-input-placeholder
+{ /* Internet Explorer 10-11 */
+    color: lightgrey;
+}
+
+#customerName::-ms-input-placeholder,
+#customerPhone::-ms-input-placeholder,
+#customerPassword::-ms-input-placeholder,
+#confirmPassword::-ms-input-placeholder,
+#customerEmail::-ms-input-placeholder,
+#customerCarMake::-ms-input-placeholder,
+#customerCarModel::-ms-input-placeholder,
+#customerCarLicensePlate::-ms-input-placeholder
+{ /* Microsoft Edge */
+    color: lightgrey;
 }

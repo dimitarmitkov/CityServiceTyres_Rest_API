@@ -23,94 +23,194 @@
 <body>
 
 
-<section>
-    <div class="container-fluid">
+<div class="container">
 
-        <div>
-            <img src="assets/img/icon.png" alt="logo">
-        </div>
+    <div class="col">
+        <div class="row">
+            <div class="col text-center">
+                <img src="assets/img/icon.png" alt="logo">
 
-        <div class="row justify-content-center">
-            <div class="col-12 col-md-8 col-lg-8 col-xl-6">
-                <div class="row">
-                    <div class="col text-center">
-                        <h1>Register</h1>
-                    </div>
-                </div>
-                <form method="post">
-                    <div class="row align-items-center">
-                        <div class="col mt-4">
-                            <input id="customerName" name="customerName" type="text"
-                                   placeholder="Name" class="form-control">
-                        </div>
-                    </div>
-                    <div class="row align-items-center mt-4">
-                        <div class="col">
-                            <input id="customerEmail" name="customerEmail" type="email"
-                                   placeholder="Email" class="form-control" >
-                        </div>
-                    </div>
-
-                    <div class="row align-items-center mt-4">
-                        <div class="col">
-                            <input id="customerPhone" name="customerPhone" type="tel"
-                                   placeholder="Phone" class="form-control">
-                        </div>
-                    </div>
-
-                    <div class="row align-items-center mt-4">
-                        <div class="col">
-                            <input id="customerCarMake" name="customerCarMake" type="text"
-                                   placeholder="Car Make" class="form-control">
-                        </div>
-                    </div>
-                    <div class="row align-items-center mt-4">
-                        <div class="col">
-                            <input id="customerCarModel" name="customerCarModel" type="text"
-                                   placeholder="Car Model" class="form-control">
-                        </div>
-                        <div class="col">
-                            <input id="customerCarLicensePlate" name="customerCarLicensePlate" type="text"
-                                   placeholder="Car License Plate" class="form-control">
-                        </div>
-                    </div>
-                    <div class="row align-items-center mt-4">
-
-
-                    </div>
-                    <div class="row align-items-center mt-4">
-                        <div class="col">
-                            <input id="customerPassword" name="customerPassword" type="password"
-                                   placeholder="Password" class="form-control">
-                        </div>
-                        <div class="col">
-                            <input type="password"  placeholder="Confirm Password" class="form-control">
-                        </div>
-                    </div>
-                    <div class="row justify-content-start mt-4">
-                        <div class="col">
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input">
-                                    I Read and Accept <a href="#">Terms and Conditions</a>
-                                </label>
-                                <label class="form-check-label">
-                                    Already registered <a href="login.html">Go to Login</a>
-                                </label>
-                            </div>
-
-                            <button id="registerBtn" class="btn btn-primary mt-4" type="button">Submit</button>
-                            <a class="btn btn-primary mt-4" href="index.html">Back</a>
-
-                        </div>
-                    </div>
-                </form>
             </div>
         </div>
+        <div class="row">
+            <div class="col text-center">
+                <h1>Register</h1>
+            </div>
+        </div>
+        <form method="post">
+            <div class="row mt-4">
+                <div class="col text-center">
+                    <input id="customerName" name="customerName" type="text"
+                           placeholder="Name" class="form-control">
+
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col text-center">
+                    <input id="customerEmail" name="customerEmail" type="email"
+                           placeholder="Email" class="form-control">
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col">
+                    <input id="customerPhone" name="customerPhone" type="tel"
+                           placeholder="Phone" class="form-control">
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col text-center">
+                    <input id="customerCarMake" name="customerCarMake" type="text"
+                           placeholder="Car Make" class="form-control">
+                </div>
+            </div>
+
+
+            <div class="row mt-4">
+                <div class="col mt-2">
+                    <input id="customerCarModel" name="customerCarModel" type="text"
+                           placeholder="Car Model" class="form-control">
+                </div>
+                <div class="col mt-2">
+
+                    <input id="customerCarLicensePlate" name="customerCarLicensePlate" type="text"
+                           placeholder="Car License Plate" class="form-control">
+                </div>
+            </div>
+
+
+            <div class="row mt-4">
+                <div class="col mb-2">
+                    <input id="customerPassword" name="customerPassword" type="password"
+                           placeholder="Password" class="form-control">
+                </div>
+
+                <div class="col mb-2">
+                    <input id="confirmPassword" type="password" placeholder="Confirm Password" class="form-control">
+
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col form-check">
+                    <label class="form-check-label mt-2">
+                        <input type="checkbox" class="form-check-input">
+                        <span id="checkBoxSpan">I Read and Accept <a href="#">Terms and Conditions</a></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class=" col form-check">
+                    <label class="form-check-label">
+                        Already registered <a href="login.html">Go to Login</a>
+                    </label>
+                </div>
+            </div>
+
+            <div class="row mt-4 sub-btn">
+                <div class="col">
+                    <button id="registerBtn" class="btn btn-primary mt-4" type="button">Submit</button>
+                </div>
+            </div>
+
+            <div class="row mt-4 sub-btn">
+                <div class="col">
+                    <a class="btn btn-primary mt-4" href="index.html">Back</a>
+                </div>
+            </div>
+        </form>
     </div>
-</section>
+</div>
 
 <!--<script type="module" src="main.js"></script>-->
 <script type="module" src="./js/register.js"></script>
 </body>
 </html>
+
+<!--<section>-->
+<!--    <div class="container-fluid">-->
+
+<!--        <div>-->
+<!--            <img src="assets/img/icon.png" alt="logo">-->
+<!--        </div>-->
+
+<!--        <div class="row justify-content-center">-->
+<!--            <div class="col-12 col-md-8 col-lg-8 col-xl-6">-->
+<!--                <div class="row">-->
+<!--                    <div class="col text-center">-->
+<!--                        <h1>Register</h1>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <form method="post">-->
+<!--                    <div class="row align-items-center">-->
+<!--                        <div class="col mt-4">-->
+<!--                            <input id="customerName" name="customerName" type="text"-->
+<!--                                   placeholder="Name" class="form-control">-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="row align-items-center mt-4">-->
+<!--                        <div class="col">-->
+<!--                            <input id="customerEmail" name="customerEmail" type="email"-->
+<!--                                   placeholder="Email" class="form-control" >-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <div class="row align-items-center mt-4">-->
+<!--                        <div class="col">-->
+<!--                            <input id="customerPhone" name="customerPhone" type="tel"-->
+<!--                                   placeholder="Phone" class="form-control">-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <div class="row align-items-center mt-4">-->
+<!--                        <div class="col">-->
+<!--                            <input id="customerCarMake" name="customerCarMake" type="text"-->
+<!--                                   placeholder="Car Make" class="form-control">-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="row align-items-center mt-4">-->
+<!--                        <div class="col">-->
+<!--                            <input id="customerCarModel" name="customerCarModel" type="text"-->
+<!--                                   placeholder="Car Model" class="form-control">-->
+<!--                        </div>-->
+<!--                        <div class="col">-->
+<!--                            <input id="customerCarLicensePlate" name="customerCarLicensePlate" type="text"-->
+<!--                                   placeholder="Car License Plate" class="form-control">-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="row align-items-center mt-4">-->
+
+
+<!--                    </div>-->
+<!--                    <div class="row align-items-center mt-4">-->
+<!--                        <div class="col">-->
+<!--                            <input id="customerPassword" name="customerPassword" type="password"-->
+<!--                                   placeholder="Password" class="form-control">-->
+<!--                        </div>-->
+<!--                        <div class="col">-->
+<!--                            <input type="password"  placeholder="Confirm Password" class="form-control">-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="row justify-content-start mt-4">-->
+<!--                        <div class="col">-->
+<!--                            <div class="form-check">-->
+<!--                                <label class="form-check-label">-->
+<!--                                    <input type="checkbox" class="form-check-input">-->
+<!--                                    I Read and Accept <a href="#">Terms and Conditions</a>-->
+<!--                                </label>-->
+<!--                                <label class="form-check-label">-->
+<!--                                    Already registered <a href="login.html">Go to Login</a>-->
+<!--                                </label>-->
+<!--                            </div>-->
+
+<!--                            <button id="registerBtn" class="btn btn-primary mt-4" type="button">Submit</button>-->
+<!--                            <a class="btn btn-primary mt-4" href="index.html">Back</a>-->
+
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->

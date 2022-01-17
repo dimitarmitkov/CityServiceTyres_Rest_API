@@ -4,6 +4,9 @@ let customerPassword = document.getElementById("customerPassword");
 
 login.addEventListener("click", loginHandler);
 
+console.log(window.screen.width)
+console.log(window.screen.height)
+
 
 function loginHandler() {
     const insertEmail = customerEmail.value;

@@ -15,6 +15,7 @@
           rel="stylesheet">
 
     <!-- Vendor CSS Files -->
+    <!--    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">-->
     <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Main CSS File -->
@@ -23,57 +24,67 @@
 <body>
 
 
-<section>
-    <div class="container-fluid">
+<!--<section>-->
+<div class="container">
+    <div class="col">
+        <div class="row">
+            <div class="col text-center">
+                <img src="assets/img/icon.png" alt="logo">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <h1>Login</h1>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col text-center">
+                <input id="customerEmail" name="customerEmail" type="email"
+                       placeholder="Email" class="form-control">
+            </div>
+        </div>
+        <div class="row mt-4">
 
-        <div>
-            <img src="assets/img/icon.png" alt="logo">
+            <div class="col text-center">
+                <input id="customerPassword" name="customerPassword" type="password"
+                       placeholder="Password" class="form-control">
+            </div>
+
+        </div>
+        <div class="row mt-4">
+
+            <div class="col form-check">
+                <label class="form-check-label mt-2">
+                    <input type="checkbox" class="form-check-input">
+                    <span id="checkBoxSpan">I Read and Accept <a href="#">Terms and Conditions</a></span>
+                </label>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class=" col form-check">
+                <label class="form-check-label">
+                    Not registered <a href="register.html">Go to Register</a>
+                </label>
+            </div>
+
         </div>
 
+        <div class="row mt-4 sub-btn">
+            <div class="col">
+                <button id="loginSubmitBtn" class="btn btn-primary mt-4">Submit</button>
+            </div>
+        </div>
 
-
-        <div class="row justify-content-center">
-            <div class="col-12 col-md-8 col-lg-8 col-xl-6">
-                <div class="row">
-                    <div class="col text-center">
-                        <h1>Login</h1>
-                    </div>
-                </div>
-                <div class="row align-items-center mt-4">
-                    <div class="col">
-                        <input id="customerEmail" name="customerEmail" type="email"
-                               placeholder="Email" class="form-control">
-                    </div>
-                </div>
-                <div class="row align-items-center mt-4">
-                    <div class="col">
-                        <input id="customerPassword" name="customerPassword" type="password"
-                               placeholder="Password" class="form-control">
-                    </div>
-
-                </div>
-                <div class="row justify-content-start mt-4">
-                    <div class="col">
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input">
-                                I Read and Accept <a href="#">Terms and Conditions</a>
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                Not registered <a href="register.html">Go to Register</a>
-                            </label>
-                        </div>
-
-                        <button id="loginSubmitBtn" class="btn btn-primary mt-4">Submit</button>
-                        <a class="btn btn-primary mt-4" href="index.html">Back</a>
-                    </div>
-                </div>
+        <div class="row mt-4 sub-btn">
+            <div class="col">
+                <a class="btn btn-primary mt-4" href="index.html">Back</a>
             </div>
         </div>
     </div>
-</section>
+</div>
+
+
+<!--</section>-->
 
 <!--<script type="module" src="main.js"></script>-->
 <script type="module" src="./js/login.js"></script>
@@ -81,3 +92,57 @@
 </body>
 
 </html>
+
+<!--<section>-->
+<!--    <div class="container-fluid">-->
+<!--        &lt;!&ndash;    <div class="container-fluid d-flex align-items-center">&ndash;&gt;-->
+
+<!--        <div class="row justify-content-center">-->
+<!--            <div>-->
+<!--                <img src="assets/img/icon.png" alt="logo">-->
+<!--            </div>-->
+<!--        </div>-->
+
+
+<!--        <div class="row justify-content-center">-->
+<!--            <div class="col-12 col-md-8 col-lg-8 col-xl-6">-->
+<!--                <div class="row">-->
+<!--                    <div class="col text-center">-->
+<!--                        <h1>Login</h1>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="row align-items-center mt-4">-->
+<!--                    <div class="col">-->
+<!--                        <input id="customerEmail" name="customerEmail" type="email"-->
+<!--                               placeholder="Email" class="form-control">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="row align-items-center mt-4">-->
+<!--                    <div class="col">-->
+<!--                        <input id="customerPassword" name="customerPassword" type="password"-->
+<!--                               placeholder="Password" class="form-control">-->
+<!--                    </div>-->
+
+<!--                </div>-->
+<!--                <div class="row justify-content-start mt-4">-->
+<!--                    <div class="col">-->
+<!--                        <div class="form-check">-->
+<!--                            <label class="form-check-label">-->
+<!--                                <input type="checkbox" class="form-check-input">-->
+<!--                                I Read and Accept <a href="#">Terms and Conditions</a>-->
+<!--                            </label>-->
+<!--                        </div>-->
+<!--                        <div class="form-check">-->
+<!--                            <label class="form-check-label">-->
+<!--                                Not registered <a href="register.html">Go to Register</a>-->
+<!--                            </label>-->
+<!--                        </div>-->
+
+<!--                        <button id="loginSubmitBtn" class="btn btn-primary mt-4">Submit</button>-->
+<!--                        <a class="btn btn-primary mt-4" href="index.html">Back</a>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
