@@ -1,4 +1,3 @@
-// const userAction = require("./userActions");
 const userModel = require("../../models/userModel");
 const {Sequelize} = require('sequelize');
 const cs = require("../connection/connectionData");
@@ -6,7 +5,6 @@ const mysql = require("mysql2");
 const bcrypt = require("bcrypt");
 const {QueryTypes} = require('sequelize');
 const jwt = require("jsonwebtoken");
-const dotenv = require('dotenv');
 const myKey = require("../connection/myKey");
 
 const sequelize = new Sequelize(cs.database, cs.user, cs.password, {
@@ -41,8 +39,6 @@ module.exports.createUser = function (req, res, next) {
 
     const isValidPass = bcrypt.compareSync(`${insertPassword}`, `${password}`);
 
-    // console.log(isValidPass);
-
     const userTable = sequelize.define("usersModel", {
             name,
             email,
@@ -50,7 +46,6 @@ module.exports.createUser = function (req, res, next) {
             phone,
         },
         {tableName: "users"});
-
 
     try {
         userTable.create({
@@ -69,7 +64,6 @@ module.exports.createUser = function (req, res, next) {
             const carTable = sequelize.define("user_carModel",
                 {userId, CarMake, carModel, licensePlate},
                 {tableName: "user_cars"});
-
 
             carTable.create({userId, CarMake, carModel, licensePlate})
                 .then(customer => {
@@ -121,7 +115,6 @@ module.exports.getUsers = function (req, res, next) {
                     console.log(payload);
                 }
             })
-
         })
         .catch(err => console.log(err));
 
@@ -137,14 +130,12 @@ module.exports.getUsers = function (req, res, next) {
     }).catch(next => console.log(next));
 }
 
-
 module.exports.loginUser = function (req, res, next) {
 
     const {insertEmail, insertPassword} = req.body;
     const userTable = sequelize.define("usersModel", {},
         {tableName: "users"});
     try {
-
         userTable.findOne(
             {
                 attributes: ['id', 'name', 'email', 'password', 'type', 'deleted'],
@@ -208,7 +199,7 @@ module.exports.logoutUser = function (req, res, next) {
     return res
         .clearCookie("access_token")
         .status(200)
-        .json({ message: "Successfully logged out" });
+        .json({message: "Successfully logged out"});
 }
 
 module.exports.updateUser = function (req, res, next) {
@@ -269,18 +260,17 @@ module.exports.getSingleUser = function (req, res, next) {
         "on Users.id = Cars.userId " +
         "left join user_hotel Hotel " +
         "on Cars.userId = Hotel.userId " +
-        "where Users.id = ?"
-        ,
+        "where Users.id = ?",
         {
             replacements: [`${idData}`],
-            type: QueryTypes.SELECT})
+            type: QueryTypes.SELECT
+        })
         .then(result => {
             res.send(JSON.stringify(result, null, 2));
         }).catch(next => console.log(next));
 }
 
 module.exports.addCalendarRecord = function (req, res, next) {
-
 
     const loggedUser = sequelize.define("user_loggedModel",
         {},
@@ -313,8 +303,6 @@ module.exports.addCalendarRecord = function (req, res, next) {
                     userCalendarTable.create({userId, date, hour});
                 }
             })
-
-            // console.log(payload.exp);
         })
         .catch(err => console.log(err));
 }
@@ -365,7 +353,6 @@ module.exports.addNewCalendarRecordGuest = function (req, res, next) {
     userCalendarTable.create({licensePlate, date, hour, email})
         .then(data => res.send("ok"))
         .catch()
-
 }
 
 module.exports.authorization = function (req, res, next) {
