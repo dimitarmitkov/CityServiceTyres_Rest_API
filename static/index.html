@@ -722,18 +722,19 @@
                                             <div class="row">
                                                 <div id="inputDataD" class="mb-2">Моля изберете дата:</div>
                                                 <label for="date"> </label>
-<!--                                                <input id="date" class="group-selection-regular" name="date" type="date"-->
-<!--                                                       placeholder="mm/dd/yyyy">-->
-                                                <input class="group-selection-regular datepicker" id="date" size="16" type="text">
+                                                <!--                                                <input id="date" class="group-selection-regular" name="date" type="date"-->
+                                                <!--                                                       placeholder="mm/dd/yyyy">-->
+                                                <input class="group-selection-regular datepicker" id="date" size="16"
+                                                       type="text">
 
 
                                             </div>
                                         </div>
 
-<!--                                        <div class="row" id="dp3" data-date="12-02-2012" data-date-format="dd-mm-yyyy">-->
-<!--                                            <span class="add-on"><i class='bx bxs-calendar'></i></span>-->
-<!--                                            <input class="group-selection-regular" id="datepicker" size="16" type="text">-->
-<!--                                        </div>-->
+                                        <!--                                        <div class="row" id="dp3" data-date="12-02-2012" data-date-format="dd-mm-yyyy">-->
+                                        <!--                                            <span class="add-on"><i class='bx bxs-calendar'></i></span>-->
+                                        <!--                                            <input class="group-selection-regular" id="datepicker" size="16" type="text">-->
+                                        <!--                                        </div>-->
 
 
                                         <div class="form-group">
@@ -906,20 +907,13 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
-    $(document).ready(function(){
+    $(document).ready(function () {
 
         $(".datepicker").datepicker({
             placeholder: 'Choose a date',
             dateFormat: 'yy-mm-dd',
         });
     });
-
-    // $(".datepicker").on("change", function() {
-    //     let pickedDate = $("input").val();
-    //     console.log(pickedDate);
-    // });
-    //
-    // document.getElementById('ui-datepicker-div').style.backgroundColor = 'white';
 
 </script>
 
