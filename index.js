@@ -12,8 +12,6 @@ const tapLog = require('./utils/tap-log');
 const globalErrorHandler = require('./global-error-handler');
 const passport = require("passport");
 
-
-
 const app = express();
 
 app.use(cors({
