@@ -44,4 +44,3 @@ function appListen() {
 
 appListen().then(tapLog(`Server is listening on :${port}`))
     .catch(error => console.log(`Server Error: ${error.message}`));
-
