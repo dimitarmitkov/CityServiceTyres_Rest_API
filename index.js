@@ -25,8 +25,8 @@ app.use('/static', express.static('public'));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(express.static(path.resolve(__basedir, 'static')));
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 api.connect('/api/v1', app);
 

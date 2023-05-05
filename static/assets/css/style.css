@@ -1960,6 +1960,7 @@ button {
   outline: none;
   padding: 5px;
   min-width: 250px;
+  min-height: 42px;
   margin-left: 30px;
 }
 
@@ -1971,10 +1972,11 @@ button {
   outline: none;
   padding: 5px;
   min-width: 250px;
+  min-height: 42px;
   margin-left: 30px;
 }
 
-#inputDataE, #inputDataD, #inputDataH, #inputDataL{
+#inputDataE, #inputDataD, #inputDataH, #inputDataL, #inputDataP{
   min-width: 200px;
 }
 
@@ -2012,6 +2014,17 @@ button {
 .ui-datepicker-calendar{
   margin: 10px;
 }
+
+.unavailable > a{
+  color: red;
+  font-weight: bolder;
+}
+
+/*for return synday forbidden*/
+/*.ui-state-disabled > span:nth-child(1) {*/
+/*  color: red;*/
+/*  font-weight: bolder;*/
+/*}*/
 
 
 @media screen and (max-width: 992px) {

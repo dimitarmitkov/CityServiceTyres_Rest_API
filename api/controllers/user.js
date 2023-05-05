@@ -345,7 +345,7 @@ module.exports.addNewCalendarRecordGuest = function (req, res, next) {
 
     let date = req.body.currentDateInput;
     let licensePlate = req.body.license;
-    let email = req.body.email;
+    let email = `${req.body.email}/${req.body.phone}`;
     let hour = parseInt(req.body.time).toString();
 
     const userCalendarTable = sequelize.define("users_calendarModel", {licensePlate, date, hour, email},
@@ -374,29 +374,31 @@ module.exports.authorization = function (req, res, next) {
 
 module.exports.calendarGetHoursTaken = function (req, res, next) {
 
-    const dateInUse = new Date(req.body.currentDateInput);
-    const date = dateInUse.toISOString().split('T')[0];
-    const hour = 0;
-    let responseArray = [];
+    if (req.body.currentDateInput) {
+        const dateInUse = new Date(req.body.currentDateInput);
+        const date = dateInUse.toISOString().split('T')[0];
+        const hour = 0;
+        let responseArray = [];
 
-    const calendarTable = sequelize.define("user_calendarModel", {
-            date,
-            hour
-        },
-        {tableName: "user_calendar"});
+        const calendarTable = sequelize.define("user_calendarModel", {
+                date,
+                hour
+            },
+            {tableName: "user_calendar"});
 
-    calendarTable.findAll({
-        attributes: ['date', 'hour'],
-        where: {date: date},
-        returning: true
-    })
-        .then(data => {
-            for (let i = 0; i < data.length; i++) {
-                responseArray.push(data[i].dataValues.hour);
-            }
-            res.send(responseArray);
+        calendarTable.findAll({
+            attributes: ['date', 'hour'],
+            where: {date: date},
+            returning: true
         })
-        .catch(err => res.send(err));
+            .then(data => {
+                for (let i = 0; i < data.length; i++) {
+                    responseArray.push(data[i].dataValues.hour);
+                }
+                res.send(responseArray);
+            })
+            .catch(err => res.send(err));
+    }
 }
 
 module.exports.getCarLicensePlate = function (req, res, next) {

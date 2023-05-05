@@ -60,7 +60,6 @@
         <div class="col-6">
             <nav class="nav-menu d-none d-lg-block">
                 <ul>
-                    <!--          <li class="active"><a href="index.html">Home</a></li>-->
                     <li class="active"><a href="#hero">Home</a></li>
                     <li><a href="#about">За нас</a></li>
                     <li><a href="#services">Нашите услуги</a></li>
@@ -72,7 +71,6 @@
             </nav><!-- .nav-menu -->
         </div>
         <div class="col-4">
-            <!--            <div class="row">-->
             <div class="row mb-2 mt-5">
                 <a href="#tires" class="get-started-btn scrollto nav-button">Запази час</a>
             </div>
@@ -717,69 +715,66 @@
                             <br/>
                             <div class="email">
                                 <div id="register-form">
-                                    <form>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div id="inputDataD" class="mb-2">Моля изберете дата:</div>
-                                                <label for="date"> </label>
-                                                <!--                                                <input id="date" class="group-selection-regular" name="date" type="date"-->
-                                                <!--                                                       placeholder="mm/dd/yyyy">-->
-                                                <input class="group-selection-regular datepicker" id="date" size="16"
-                                                       type="text">
-
-
-                                            </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div id="inputDataD" class="mb-2">Моля изберете дата:</div>
+                                            <label for="date"> </label>
+                                            <input type="text" id="date" class="group-selection-regular" name="date"
+                                                   placeholder="mm/dd/yyyy"/>
                                         </div>
-
-                                        <!--                                        <div class="row" id="dp3" data-date="12-02-2012" data-date-format="dd-mm-yyyy">-->
-                                        <!--                                            <span class="add-on"><i class='bx bxs-calendar'></i></span>-->
-                                        <!--                                            <input class="group-selection-regular" id="datepicker" size="16" type="text">-->
-                                        <!--                                        </div>-->
-
-
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div id="inputDataH" class="mb-2">Моля изберете час :</div>
-                                                <label for="time"></label>
-                                                <select id="time" class="group-selection-regular" name="time"></select>
-                                            </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div id="inputDataH" class="mb-2">Моля изберете час :</div>
+                                            <label for="time"></label>
+                                            <select id="time" class="group-selection-regular" name="time"></select>
                                         </div>
+                                    </div>
 
-                                        <div class="form-group" id="email-select-group">
-                                            <div class="row">
-                                                <div id="inputDataE" class="mb-2">Моля въведете email :</div>
-                                                <label for="email-select"></label>
-                                                <input id="email-select" class="group-selection-regular" name="email"
-                                                       type="email" placeholder="email">
-                                            </div>
+                                    <div class="form-group" id="email-select-group">
+                                        <div class="row">
+                                            <div id="inputDataE" class="mb-2">Моля въведете email :</div>
+                                            <label for="email-select"></label>
+                                            <input id="email-select" class="group-selection-regular" name="email"
+                                                   type="email" placeholder="email">
                                         </div>
+                                    </div>
 
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div id="inputDataL" class="mb-2">Регистрационен номер :</div>
-                                                <label for="license"></label>
-                                                <input id="license" class="group-selection-regular" name="license"
-                                                       type="text">
-                                            </div>
+                                    <div class="form-group" id="phone-select-group">
+                                        <div class="row">
+                                            <div id="inputDataP" class="mb-2">Моля въведете телефон :</div>
+                                            <label for="phone-select"></label>
+                                            <input id="phone-select" class="group-selection-regular" name="phone"
+                                                   type="tel" placeholder="телефон" value="+359"
+                                                   required>
                                         </div>
+                                    </div>
 
-                                        <div id="day-time-record" class="data-none">
-                                            <!--<div class="alert alert-warning alert-dismissible fade show" role="alert">-->
-                                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                                <strong>Holy guacamole!</strong> You should check in on some of those
-                                                fields
-                                                below.
-                                                <button type="button" class="close" data-dismiss="alert"
-                                                        aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div id="inputDataL" class="mb-2">Регистрационен номер :</div>
+                                            <label for="license"></label>
+                                            <input id="license" class="group-selection-regular" name="license"
+                                                   type="text">
                                         </div>
+                                    </div>
 
 
-                                        <button class="get-started-btn" id="select-btn" type="button">Запазване на час
-                                        </button>
-                                    </form>
+                                    <div id="day-time-record" class="data-none">
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            <strong>Holy guacamole!</strong> You should check in on some of those
+                                            fields
+                                            below.
+                                            <button type="button" class="close" data-dismiss="alert"
+                                                    aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    </div>
+
+
+                                    <button class="get-started-btn" id="select-btn" type="button">Запазване на час
+                                    </button>
                                     <br/>
                                     <div id="alert"></div>
                                 </div>
@@ -803,7 +798,7 @@
         </button>
         &nbsp; We use cookies on this website to distinguish you from other users. &nbsp;
         We use this data to enhance your experience and for targeted advertising. &nbsp;
-        By continuing to use this website you consent to our use of cookies. &nbsp;
+        <B></B>y continuing to use this website you consent to our use of cookies. &nbsp;
         For more information, please see our &nbsp;
         <a href="https://www.aboutcookies.org/" target="_blank">Cookie Policy</a>.
     </div>
@@ -894,7 +889,6 @@
 <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
 <script src="assets/vendor/aos/aos.js"></script>
 
-
 <!-- Template Main JS File -->
 <script src="assets/js/main.js"></script>
 <script src="assets/faq/faq.js">show();</script>
@@ -902,20 +896,8 @@
 <script src="assets/email/send_email.js"></script>
 <script src="assets/season/emailValidation.js"></script>
 <script type="module" src="main.js"></script>
-
-
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script>
-    $(document).ready(function () {
-
-        $(".datepicker").datepicker({
-            placeholder: 'Choose a date',
-            dateFormat: 'yy-mm-dd',
-        });
-    });
-
-</script>
 
 </body>
 
